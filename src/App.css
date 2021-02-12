@@ -25,3 +25,6 @@
 .restart:hover {
     box-shadow: 8px 8px 15px rgba(20, 30, 100, .5);
 }
+.current {
+    color: red;
+}

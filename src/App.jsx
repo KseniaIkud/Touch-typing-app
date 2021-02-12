@@ -24,8 +24,9 @@ const App = () => {
         setStartTime(new Date().getTime())
     }
     const onFinishTyping = () => {
-        const finishTime = new Date().getTime()
-        setSpeed((finishTime - startTime) / 60000)
+        const finishTime = new Date().getTime();
+        setSpeed((finishTime - startTime) / 60000);
+        setoutgoingValues('')
     }
 
     useKeyPress((key) => {
@@ -48,8 +49,9 @@ const App = () => {
                 Задать текст
             </button>
             <div className="textarea">
-                <textarea name="" id="" cols="30" rows="10" value={text || ''}></textarea>
-
+                <span>{outgoingValues}</span>
+                <span className="current">{currentSymbol}</span>
+                <span>{incomingValues}</span>
             </div>
             <div className="result">
                 <div>
