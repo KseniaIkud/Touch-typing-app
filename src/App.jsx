@@ -4,20 +4,21 @@ import getText from './Api/getText'
 import useKeyPress from './useKeyPress'
 
 const App = () => {
-    const [text, setText] = useState();
     const [outgoingValues, setoutgoingValues] = useState('');
     const [incomingValues, setincomingValues] = useState();
     const [currentSymbol, setCurrentSymbol] = useState();
     const [startTime, setStartTime] = useState();
     const [speed, setSpeed] = useState(0);
     const [accuracy, setAccuracy] = useState(100);
-    const [typedText, setTypedText] = useState('')
+    const [typedText, setTypedText] = useState('');
+    const [wrongSymbol, setWrongSymbol] = useState(false);
+
     const onTextButtonClick = () => {
         getText()
             .then(result => {
-                setText(result[0]);
-                setincomingValues(result[0].substr(1));
-                setCurrentSymbol(result[0].charAt(0));
+                let wholeText = result[0];
+                setCurrentSymbol(wholeText.charAt(0));
+                setincomingValues(wholeText.substr(1));
             })
     };
     const onStartTyping = () => {
@@ -30,16 +31,22 @@ const App = () => {
     }
 
     useKeyPress((key) => {
-        // console.log(`outgoning: ${outgoingValues + key}`)
-        // console.log(`incoming: ${incomingValues + key}`)
-        // console.log(`typed: ${typedText + key}`)
+        if (!startTime) {
+            onStartTyping();
+        }
         if (key === currentSymbol) {
             setoutgoingValues(outgoingValues + key);
             setCurrentSymbol(incomingValues.charAt(0));
             setincomingValues(incomingValues.substr(1));
+            setWrongSymbol(false);
+        } else {
+            setWrongSymbol(true)
         }
-        setTypedText(typedText + key)
-        setAccuracy((((outgoingValues + key).length * 100) / (typedText + key).length).toFixed(1,))
+        setTypedText(typedText + key);
+        setAccuracy((((outgoingValues + key).length * 100) / (typedText + key).length).toFixed(1,));
+        if (startTime && !incomingValues) {
+            onFinishTyping();
+        }
     })
 
 
@@ -50,7 +57,7 @@ const App = () => {
             </button>
             <div className="textarea">
                 <span>{outgoingValues}</span>
-                <span className="current">{currentSymbol}</span>
+                <span className={`${wrongSymbol ? "current-symbol_wrong" : "current-symbol"}`}>{currentSymbol}</span>
                 <span>{incomingValues}</span>
             </div>
             <div className="result">

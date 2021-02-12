@@ -9,6 +9,18 @@
     width: 50%;
     height: 300px;
     border: 1px solid #000;
+    line-height: 30px;
+    font-size: 20px;
+}
+.current-symbol {
+    border: 1px solid green;
+    background-color: greenyellow;
+    border-radius: 4px;
+}
+.current-symbol_wrong {
+    border: 1px solid red;
+    background-color: lightcoral;
+    border-radius: 4px;
 }
 .restart {
     border: 1px solid gray;
@@ -24,7 +36,4 @@
 }
 .restart:hover {
     box-shadow: 8px 8px 15px rgba(20, 30, 100, .5);
-}
-.current {
-    color: red;
 }
