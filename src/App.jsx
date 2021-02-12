@@ -12,7 +12,7 @@ const App = () => {
     const [speed, setSpeed] = useState(0);
     const [accuracy, setAccuracy] = useState(100);
     const [typedText, setTypedText] = useState('');
-    const [wrongSymbol, setWrongSymbol] = useState(false);
+    const [isWrongSymbol, setWrongSymbol] = useState(false);
     const updateState = () => {
         setoutgoingValues('');
         setStartTime();
@@ -31,31 +31,41 @@ const App = () => {
                 updateState();
             })
     };
+    const updateAccuracy = (expected, typed) => {
+        setAccuracy(((expected.length * 100) / (typed.length)).toFixed(0,));
+    }
 
     useKeyPress((key) => {
         if (!startTime) {
             setStartTime(new Date().getTime());
         }
-        let updatedTypedText = typedText + key;
-        setTypedText(updatedTypedText);
 
-        let updatedOutgoingValues = outgoingValues + key;
+        let updatedTypedText = typedText + key;
+        let updatedOutgoingValues = outgoingValues;
         if (key === currentSymbol) {
+            setTypedText(updatedTypedText);
+
+            updatedOutgoingValues += key;
             setoutgoingValues(updatedOutgoingValues);
+
             setCurrentSymbol(incomingValues.charAt(0));
             setincomingValues(incomingValues.substr(1));
             setWrongSymbol(false);
+            updateAccuracy(updatedOutgoingValues, updatedTypedText);
             if (startTime && !incomingValues) {
                 setoutgoingValues('');
                 setButtonDisable(false);
             }
         } else {
-            setWrongSymbol(true)
+            setWrongSymbol(true);
+            if (updatedTypedText.slice(-2, -1) === updatedOutgoingValues.slice(-1)) {
+                setTypedText(updatedTypedText);
+                updateAccuracy(updatedOutgoingValues, updatedTypedText);
+            }
         }
         const currentTime = new Date().getTime();
         const duration = (currentTime - startTime) / 60000;
         setSpeed((updatedOutgoingValues.length / duration).toFixed(2,));
-        setAccuracy(((updatedOutgoingValues.length * 100) / updatedTypedText.length).toFixed(1,));
     })
 
 
@@ -66,7 +76,7 @@ const App = () => {
             </button>
             <div className="textarea">
                 <span>{outgoingValues}</span>
-                <span className={`${wrongSymbol ? "current-symbol_wrong" : "current-symbol"}`}>{currentSymbol}</span>
+                <span className={`${isWrongSymbol ? "current-symbol_wrong" : "current-symbol"}`}>{currentSymbol}</span>
                 <span>{incomingValues}</span>
             </div>
             <div className="result">
