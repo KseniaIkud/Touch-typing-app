@@ -19,14 +19,15 @@ const App = () => {
                 let wholeText = result[0];
                 setCurrentSymbol(wholeText.charAt(0));
                 setincomingValues(wholeText.substr(1));
+                setoutgoingValues('');
+                setAccuracy(100);
+                setSpeed(0);
             })
     };
     const onStartTyping = () => {
         setStartTime(new Date().getTime())
     }
     const onFinishTyping = () => {
-        const finishTime = new Date().getTime();
-        setSpeed((finishTime - startTime) / 60000);
         setoutgoingValues('')
     }
 
@@ -39,14 +40,17 @@ const App = () => {
             setCurrentSymbol(incomingValues.charAt(0));
             setincomingValues(incomingValues.substr(1));
             setWrongSymbol(false);
+            if (startTime && !incomingValues) {
+                onFinishTyping();
+            }
         } else {
             setWrongSymbol(true)
         }
+        const currentTime = new Date().getTime();
+        const duration = (currentTime - startTime) / 60000;
+        setSpeed(((outgoingValues + key).length / duration));
         setTypedText(typedText + key);
         setAccuracy((((outgoingValues + key).length * 100) / (typedText + key).length).toFixed(1,));
-        if (startTime && !incomingValues) {
-            onFinishTyping();
-        }
     })
 
 
