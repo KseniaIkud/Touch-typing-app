@@ -36,10 +36,10 @@ const App = () => {
     }
 
     useKeyPress((key) => {
+        let currentTime = new Date().getTime()
         if (!startTime) {
-            setStartTime(new Date().getTime());
-        }
-
+            setStartTime(currentTime);
+        } 
         let updatedTypedText = typedText + key;
         let updatedOutgoingValues = outgoingValues;
         if (key === currentSymbol) {
@@ -63,9 +63,12 @@ const App = () => {
                 updateAccuracy(updatedOutgoingValues, updatedTypedText);
             }
         }
-        const currentTime = new Date().getTime();
-        const duration = (currentTime - startTime) / 60000;
-        setSpeed((updatedOutgoingValues.length / duration).toFixed(2,));
+
+        if (startTime) {
+            const duration = (currentTime - startTime) / 60000;
+            const speed = (updatedOutgoingValues.length / duration).toFixed(2,)  
+            setSpeed(speed);
+        }
     })
 
 
