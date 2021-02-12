@@ -5,7 +5,7 @@ import useKeyPress from './useKeyPress'
 
 const App = () => {
     const [text, setText] = useState();
-    const [outgoingValues, setoutgoingValues] = useState();
+    const [outgoingValues, setoutgoingValues] = useState('');
     const [incomingValues, setincomingValues] = useState();
     const [currentSymbol, setCurrentSymbol] = useState();
     const [startTime, setStartTime] = useState();
@@ -17,7 +17,7 @@ const App = () => {
             .then(result => {
                 setText(result[0]);
                 setincomingValues(result[0].substr(1));
-                setCurrentSymbol(result[0](0));
+                setCurrentSymbol(result[0].charAt(0));
             })
     };
     const onStartTyping = () => {
@@ -25,13 +25,22 @@ const App = () => {
     }
     const onFinishTyping = () => {
         const finishTime = new Date().getTime()
-        setSpeed((finishTime - startTime)/60000)
+        setSpeed((finishTime - startTime) / 60000)
     }
-    const onTyping = (key) => {
+
+    useKeyPress((key) => {
+        // console.log(`outgoning: ${outgoingValues + key}`)
+        // console.log(`incoming: ${incomingValues + key}`)
+        // console.log(`typed: ${typedText + key}`)
+        if (key === currentSymbol) {
+            setoutgoingValues(outgoingValues + key);
+            setCurrentSymbol(incomingValues.charAt(0));
+            setincomingValues(incomingValues.substr(1));
+        }
         setTypedText(typedText + key)
-        setAccuracy( (outgoingValues.length * 100) / (typedText + key).length)
-    }
-    
+        setAccuracy((((outgoingValues + key).length * 100) / (typedText + key).length).toFixed(1,))
+    })
+
 
     return <div className="app">
         <div className="app__content">
@@ -39,7 +48,8 @@ const App = () => {
                 Задать текст
             </button>
             <div className="textarea">
-                {text || ''}
+                <textarea name="" id="" cols="30" rows="10" value={text || ''}></textarea>
+
             </div>
             <div className="result">
                 <div>
