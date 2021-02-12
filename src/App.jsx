@@ -12,52 +12,54 @@ const App = () => {
     const [accuracy, setAccuracy] = useState(100);
     const [typedText, setTypedText] = useState('');
     const [wrongSymbol, setWrongSymbol] = useState(false);
-
+    const updateState = () => {
+        setoutgoingValues('');
+        setStartTime();
+        setSpeed(0);
+        setAccuracy(100);
+        setTypedText('');
+        setWrongSymbol(false);
+    }
     const onTextButtonClick = () => {
         getText()
             .then(result => {
                 let wholeText = result[0];
-                setCurrentSymbol(wholeText.charAt(0));
                 setincomingValues(wholeText.substr(1));
-                setoutgoingValues('');
-                setAccuracy(100);
-                setSpeed(0);
+                setCurrentSymbol(wholeText.charAt(0));
+                updateState();
             })
     };
-    const onStartTyping = () => {
-        setStartTime(new Date().getTime())
-    }
-    const onFinishTyping = () => {
-        setoutgoingValues('')
-    }
 
     useKeyPress((key) => {
         if (!startTime) {
-            onStartTyping();
+            setStartTime(new Date().getTime());
         }
+        let updatedTypedText = typedText + key;
+        setTypedText(updatedTypedText);
+
+        let updatedOutgoingValues = outgoingValues + key;
         if (key === currentSymbol) {
-            setoutgoingValues(outgoingValues + key);
+            setoutgoingValues(updatedOutgoingValues);
             setCurrentSymbol(incomingValues.charAt(0));
             setincomingValues(incomingValues.substr(1));
             setWrongSymbol(false);
             if (startTime && !incomingValues) {
-                onFinishTyping();
+                setoutgoingValues('');
             }
         } else {
             setWrongSymbol(true)
         }
         const currentTime = new Date().getTime();
         const duration = (currentTime - startTime) / 60000;
-        setSpeed(((outgoingValues + key).length / duration));
-        setTypedText(typedText + key);
-        setAccuracy((((outgoingValues + key).length * 100) / (typedText + key).length).toFixed(1,));
+        setSpeed((updatedOutgoingValues.length / duration).toFixed(2,));
+        setAccuracy(((updatedOutgoingValues.length * 100) / updatedTypedText.length).toFixed(1,));
     })
 
 
     return <div className="app">
         <div className="app__content">
-            <button className="restart" onClick={onTextButtonClick}>
-                Задать текст
+            <button className="start" onClick={onTextButtonClick}>
+                Начать
             </button>
             <div className="textarea">
                 <span>{outgoingValues}</span>
@@ -72,7 +74,6 @@ const App = () => {
                     Точность (процент правильных символов): {accuracy}%
                 </div>
             </div>
-            <button className="restart">Начать заново</button>
         </div>
     </div>
 }
