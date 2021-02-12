@@ -4,6 +4,7 @@ import getText from './Api/getText'
 import useKeyPress from './useKeyPress'
 
 const App = () => {
+    const [isButtonDisabled, setButtonDisable] = useState(false)
     const [outgoingValues, setoutgoingValues] = useState('');
     const [incomingValues, setincomingValues] = useState();
     const [currentSymbol, setCurrentSymbol] = useState();
@@ -20,7 +21,8 @@ const App = () => {
         setTypedText('');
         setWrongSymbol(false);
     }
-    const onTextButtonClick = () => {
+    const onTextButtonClick = (e) => {
+        setButtonDisable(true)
         getText()
             .then(result => {
                 let wholeText = result[0];
@@ -45,6 +47,7 @@ const App = () => {
             setWrongSymbol(false);
             if (startTime && !incomingValues) {
                 setoutgoingValues('');
+                setButtonDisable(false);
             }
         } else {
             setWrongSymbol(true)
@@ -58,7 +61,7 @@ const App = () => {
 
     return <div className="app">
         <div className="app__content">
-            <button className="start" onClick={onTextButtonClick}>
+            <button disabled={isButtonDisabled} className="start" onClick={onTextButtonClick}>
                 Начать
             </button>
             <div className="textarea">
