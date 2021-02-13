@@ -1,3 +1,3 @@
-const getCurrentTime = new Date().getTime()
+const getCurrentTime = () => new Date().getTime()
 
 export default getCurrentTime

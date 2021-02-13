@@ -5,7 +5,7 @@ import getCurrentTime from '../utils/getCurrentTime'
 import useKeyPress from '../hooks/useKeyPress'
 
 const App = () => {
-    const [isButtonDisabled, setButtonDisable] = useState(false)
+    
     const [outgoingValues, setOutgoingValues] = useState('');
     const [incomingValues, setIncomingValues] = useState();
     const [currentSymbol, setCurrentSymbol] = useState();
@@ -22,8 +22,7 @@ const App = () => {
         setTypedText('');
         setWrongSymbol(false);
     }
-    const onTextButtonClick = (e) => {
-        setButtonDisable(true)
+    const onTextButtonClick = () => {
         getText()
             .then(result => {
                 let wholeText = result[0];
@@ -56,7 +55,6 @@ const App = () => {
             updateAccuracy(updatedOutgoingValues, updatedTypedText);
             if (startTime && !incomingValues) {
                 setOutgoingValues('');
-                setButtonDisable(false);
             }
         } else {
             setWrongSymbol(true);
@@ -67,7 +65,7 @@ const App = () => {
         }
         if (startTime) {
             const duration = (currentTime - startTime) / 60000;
-            const speed = (updatedOutgoingValues.length / duration).toFixed(2,);
+            const speed = (updatedOutgoingValues.length / duration).toFixed(0,);
             setSpeed(speed);
         }
     })
@@ -75,9 +73,9 @@ const App = () => {
 
     return <div className="app">
         <div className="app__content">
-            <button disabled={isButtonDisabled} className="start" onClick={onTextButtonClick}>
+            <div className="start" onClick={onTextButtonClick}>
                 Начать
-            </button>
+            </div>
             <div className="textarea">
                 <span>{outgoingValues}</span>
                 <span className={`${isWrongSymbol ? "current-symbol_wrong" : "current-symbol"}`}>{currentSymbol}</span>
