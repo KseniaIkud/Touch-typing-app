@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import getText from './Api/getText'
-import useKeyPress from './useKeyPress'
+import getText from '../utils/getText'
+import getCurrentTime from '../utils/getCurrentTime'
+import useKeyPress from '../hooks/useKeyPress'
 
 const App = () => {
     const [isButtonDisabled, setButtonDisable] = useState(false)
-    const [outgoingValues, setoutgoingValues] = useState('');
-    const [incomingValues, setincomingValues] = useState();
+    const [outgoingValues, setOutgoingValues] = useState('');
+    const [incomingValues, setIncomingValues] = useState();
     const [currentSymbol, setCurrentSymbol] = useState();
     const [startTime, setStartTime] = useState();
     const [speed, setSpeed] = useState(0);
@@ -14,7 +15,7 @@ const App = () => {
     const [typedText, setTypedText] = useState('');
     const [isWrongSymbol, setWrongSymbol] = useState(false);
     const updateState = () => {
-        setoutgoingValues('');
+        setOutgoingValues('');
         setStartTime();
         setSpeed(0);
         setAccuracy(100);
@@ -26,34 +27,35 @@ const App = () => {
         getText()
             .then(result => {
                 let wholeText = result[0];
-                setincomingValues(wholeText.substr(1));
+                setIncomingValues(wholeText.substr(1));
                 setCurrentSymbol(wholeText.charAt(0));
                 updateState();
             })
+            .catch(err => console.log(err))
     };
     const updateAccuracy = (expected, typed) => {
         setAccuracy(((expected.length * 100) / (typed.length)).toFixed(0,));
     }
 
     useKeyPress((key) => {
-        let currentTime = new Date().getTime()
+        let currentTime = getCurrentTime();
         if (!startTime) {
             setStartTime(currentTime);
-        } 
+        };
         let updatedTypedText = typedText + key;
         let updatedOutgoingValues = outgoingValues;
         if (key === currentSymbol) {
             setTypedText(updatedTypedText);
 
             updatedOutgoingValues += key;
-            setoutgoingValues(updatedOutgoingValues);
+            setOutgoingValues(updatedOutgoingValues);
 
             setCurrentSymbol(incomingValues.charAt(0));
-            setincomingValues(incomingValues.substr(1));
+            setIncomingValues(incomingValues.substr(1));
             setWrongSymbol(false);
             updateAccuracy(updatedOutgoingValues, updatedTypedText);
             if (startTime && !incomingValues) {
-                setoutgoingValues('');
+                setOutgoingValues('');
                 setButtonDisable(false);
             }
         } else {
@@ -63,10 +65,9 @@ const App = () => {
                 updateAccuracy(updatedOutgoingValues, updatedTypedText);
             }
         }
-
         if (startTime) {
             const duration = (currentTime - startTime) / 60000;
-            const speed = (updatedOutgoingValues.length / duration).toFixed(2,)  
+            const speed = (updatedOutgoingValues.length / duration).toFixed(2,);
             setSpeed(speed);
         }
     })
