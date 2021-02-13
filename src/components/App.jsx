@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import './App.css';
-import getText from '../utils/getText'
-import getCurrentTime from '../utils/getCurrentTime'
-import useKeyPress from '../hooks/useKeyPress'
+import getText from '../utils/getText';
+import getCurrentTime from '../utils/getCurrentTime';
+import useKeyPress from '../hooks/useKeyPress';
+import Start from './Start'
 
 const App = () => {
     
@@ -72,10 +73,12 @@ const App = () => {
 
 
     return <div className="app">
+        <Start/>
         <div className="app__content">
             <div className="start" onClick={onTextButtonClick}>
                 Начать
             </div>
+            
             <div className="textarea">
                 <span>{outgoingValues}</span>
                 <span className={`${isWrongSymbol ? "current-symbol_wrong" : "current-symbol"}`}>{currentSymbol}</span>
