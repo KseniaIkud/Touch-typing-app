@@ -1,13 +1,14 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Dropdown } from 'react-bootstrap';
+import actions from '../state/actions'
 
 const Language = ({state, dispatch}) => {
     const setRussian = () => {
-        dispatch({type: 'SET_LANGUAGE', language: 'rus'})
+        dispatch({type: actions.SET_LANGUAGE, language: 'rus'})
     }
     const setEnglish = () => {
-        dispatch({type: 'SET_LANGUAGE', language: 'eng'})
+        dispatch({type: actions.SET_LANGUAGE, language: 'eng'})
     }
 
     return (

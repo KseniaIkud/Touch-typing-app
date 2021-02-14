@@ -19,36 +19,33 @@ function reducer(state, action) {
                 length: action.result.length
                 
             }
-        case actions.SET_OUTGOING_VALUES:
+        case actions.SET_RIGHT_KEY:
             return {
                 ...state,
-                outgoingValues: action.outgoingValues
+                typedText: state.typedText + action.key,
+                outgoingValues: state.outgoingValues + action.key,
+                currentSymbol: state.incomingValues.charAt(0),
+                incomingValues: state.incomingValues.substr(1),
+                isSymbolWrong: false,
+                accuracy: (((state.outgoingValues.length + 1) * 100) / (state.typedText.length + 1)).toFixed(0,)
             }
-        case actions.SET_INCOMING_VALUES:
+        case actions.COMPLETE:
             return {
                 ...state,
-                incomingValues: action.incomingValues
+                outgoingValues: ''
             }
-        case actions.SET_CURRENT_SYMBOL: 
+        case actions.UPDATE_TYPED_TEXT:
             return {
                 ...state,
-                currentSymbol: action.currentSymbol
+                typedText: state.typedText + action.key
             }
+        
         case actions.WRONG_SYMBOL: 
             return {
                 ...state,
                 isSymbolWrong: true
             }
-        case actions.RIGHT_SYMBOL: 
-            return {
-                ...state,
-                isSymbolWrong: false
-            }
-        case actions.SET_LENGTH: 
-            return {
-                ...state,
-                length: action.length
-            }
+        
         case actions.START: 
             return {
                 ...state,
@@ -64,11 +61,7 @@ function reducer(state, action) {
                 ...state,
                 accuracy: action.accuracy
             }
-        case actions.SET_TYPED_TEXT:
-            return {
-                ...state,
-                typedText: action.text
-            }
+        
         case actions.SET_LANGUAGE:
             return {
                 ...state,

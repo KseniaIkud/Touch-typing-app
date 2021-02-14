@@ -1,13 +1,14 @@
 import React, { useState, useReducer } from 'react';
 import getText from '../utils/getText';
 import getCurrentTime from '../utils/getCurrentTime';
+
 import useKeyPress from '../hooks/useKeyPress';
+import actions from '../state/actions';
+import reducer from '../state/reducer';
+
 import Start from './Start';
 import TypingArea from './TypingArea';
 import Result from './Result';
-import actions from '../state/actions'
-import reducer from '../state/reducer'
-
 
 const initialState = {
     length: 0,
@@ -46,42 +47,28 @@ const App = () => {
     };
 
     const onKeyPress = (key) => {
-        const updateAccuracy = (expected, typed) => {
-            return ((expected.length * 100) / (typed.length)).toFixed(0,) 
-        }
-        let currentTime = getCurrentTime();
         if (!state.startTime) {
-            dispatch({type: actions.START, time: currentTime})
+            dispatch({type: actions.START, time: getCurrentTime()})
         };
-        dispatch({type: actions.SET_TYPED_TEXT, text: state.typedText + key})
-        let updatedTypedText = state.typedText + key;
-        let updatedOutgoingValues = state.outgoingValues;
         if (key === state.currentSymbol) {
-            updatedOutgoingValues += key;
-            dispatch({type: actions.SET_TYPED_TEXT, text: updatedTypedText})
-            dispatch({type: actions.SET_OUTGOING_VALUES, outgoingValues: updatedOutgoingValues})
-            dispatch({type: actions.SET_CURRENT_SYMBOL, currentSymbol: state.incomingValues.charAt(0)})
-            dispatch({type: actions.SET_INCOMING_VALUES, incomingValues: state.incomingValues.substr(1)})
-            dispatch({type: actions.RIGHT_SYMBOL})
-            let accuracy = updateAccuracy(updatedOutgoingValues, updatedTypedText);
-            dispatch({type: actions.SET_ACCURACY, accuracy})
+            dispatch({type: actions.SET_RIGHT_KEY, key})
             let isFinished = (state.startTime && !state.incomingValues)
             if (isFinished) {
-                dispatch({type: actions.SET_OUTGOING_VALUES, outgoingValues: ''})
+                dispatch({type: actions.COMPLETE})
                 setShowResult(true);
             }
         } else {
             dispatch({type: actions.WRONG_SYMBOL})
-            let isSameMistake = (updatedTypedText.slice(-2, -1) === updatedOutgoingValues.slice(-1))
-            if (isSameMistake) {
-                dispatch({type: actions.SET_TYPED_TEXT, text: updatedTypedText})
-                let accuracy = updateAccuracy(updatedOutgoingValues, updatedTypedText);
+            let isMistakeNew = state.typedText.substr(-1) === state.outgoingValues.substr(-1);
+            if (isMistakeNew) {
+                let accuracy = ((state.outgoingValues.length * 100) / (state.typedText.length + 1)).toFixed(0,)
                 dispatch({type: actions.SET_ACCURACY, accuracy})
+                dispatch({type: actions.UPDATE_TYPED_TEXT, key})
             }
         }
         if (state.startTime) {
-            const duration = (currentTime - state.startTime) / 60000;
-            const speed = (updatedOutgoingValues.length / duration).toFixed(0,);
+            const duration = (getCurrentTime() - state.startTime) / 60000;
+            const speed = (state.outgoingValues.length / duration).toFixed(0,);
             dispatch({type: actions.SET_SPEED, speed})
         }
     }
