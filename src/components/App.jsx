@@ -18,6 +18,7 @@ const App = () => {
     const [isWrongSymbol, setWrongSymbol] = useState(false);
     const [showStart, setShowStart] = useState(true);
     const [showResult, setShowResult] = useState (false);
+    const [isCyrillic, setCyrillic] = useState(true);
     
     const updateState = () => {
         setOutgoingValues('');
@@ -31,13 +32,21 @@ const App = () => {
         setShowStart(false);
         setShowResult(false);
         updateState();
-        getText()
+        if (isCyrillic) {
+            getText.getCyrillicText()
             .then(result => {
-                let wholeText = result[0];
-                setIncomingValues(wholeText.substr(1));
-                setCurrentSymbol(wholeText.charAt(0));
+                setIncomingValues(result.substr(1));
+                setCurrentSymbol(result.charAt(0));
             })
             .catch(err => console.log(err))
+        } else {
+            getText.getLatinText()
+            .then(result => {
+                setIncomingValues(result.substr(1));
+                setCurrentSymbol(result.charAt(0));
+            })
+            .catch(err => console.log(err))
+        }
     };
 
     const onKeyPress = (key) => {
@@ -82,7 +91,6 @@ const App = () => {
     }
 
     useKeyPress(onKeyPress)
-
     return (
         <div>
            <Start show={showStart} onStart={onStart}/>
