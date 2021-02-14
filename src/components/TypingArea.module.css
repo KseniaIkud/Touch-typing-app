@@ -44,10 +44,14 @@
 }
 .result {
     font-size: 24px;
-    max-width: 150px;
+    width: 25%;
     text-align: center;
     background-color: lemonchiffon;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+}
+.resultName {
+    font-size: 26px;
+    border: 1px solid #000;
 }

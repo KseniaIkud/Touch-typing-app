@@ -9,7 +9,7 @@ const TypingArea = (props) => {
         <div className={classes.typingArea}>
             <div className={classes.header}>
                 <ProgressBar now={60} variant="success" animated className="w-75"/>
-                <img src={restart} alt="restart" width="40" className={classes.restart}/>
+                <img src={restart} alt="restart" width="40" className={classes.restart} onClick={props.onStart}/>
             </div>
             <div className={classes.content}>
                 <div className={classes.text}>
@@ -23,10 +23,17 @@ const TypingArea = (props) => {
                 </div>
                 <div className={classes.result}>
                     <div>
-                        Скорость {props.speed} зн/мин
+                        Скорость 
+                        <div>
+                            {props.speed} зн/мин
+                        </div>
                     </div>
+                    
                     <div>
-                        Точность {props.accuracy}%
+                        Точность
+                        <div>
+                            {props.accuracy}%
+                        </div>
                     </div>
                 </div>
             </div>

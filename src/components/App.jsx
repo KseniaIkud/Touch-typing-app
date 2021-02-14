@@ -80,16 +80,18 @@ const App = () => {
             setSpeed(speed);
         }
     }
-    
 
     useKeyPress(onKeyPress)
 
-
-    return <div>
-        <Start show={showStart} onStart={onStart}/>
-        <TypingArea outgoingValues={outgoingValues} currentSymbol={currentSymbol} incomingValues={incomingValues} isWrong={isWrongSymbol} speed={speed} accuracy={accuracy} />
-        <Result speed={speed} accuracy={accuracy} show={showResult} onStart={onStart} />
-    </div>
+    return (
+        <div>
+           <Start show={showStart} onStart={onStart}/>
+           <Result speed={speed} accuracy={accuracy} show={showResult} onStart={onStart} />
+           <TypingArea outgoingValues={outgoingValues} 
+                currentSymbol={currentSymbol} incomingValues={incomingValues} 
+                isWrong={isWrongSymbol} speed={speed} accuracy={accuracy} onStart={onStart}/>
+        </div>
+    )
 }
 
 export default App;
