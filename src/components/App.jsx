@@ -6,6 +6,9 @@ import Start from './Start';
 import TypingArea from './TypingArea';
 import Result from './Result';
 
+const RESET_STATE = 'RESET_STATE';
+const SET_TEXT = 'SET_TEXT';
+
 const SET_OUTGOING_VALUES = 'SET_OUTGOING_VALUES';
 const SET_INCOMING_VALUES = 'SET_INCOMING_VALUES';
 const SET_CURRENT_SYMBOL = 'SET_CURRENT_SYMBOL';
@@ -17,7 +20,8 @@ const SET_SPEED = 'SET_SPEED';
 const SET_ACCURACY = 'SET_ACCURACY';
 const SET_TYPED_TEXT = 'SET_TYPED_TEXT';
 const SET_LANGUAGE = 'SET_LANGUAGE';
-const RESET_STATE = 'RESET_STATE';
+
+
 
 function reducer(state, action) {
     switch (action.type) {
@@ -30,6 +34,14 @@ function reducer(state, action) {
                 speed: 0,
                 accuracy: 100,
                 typedText: ''
+            }
+        case SET_TEXT:
+            return {
+                ...state,
+                incomingValues: action.result.substr(1),
+                currentSymbol: action.result.charAt(0),
+                length: action.result.length
+                
             }
         case SET_OUTGOING_VALUES:
             return {
@@ -106,21 +118,6 @@ const App = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
     const [showStart, setShowStart] = useState(true);
     const [showResult, setShowResult] = useState (false);
-
-    let resultState = {
-        accuracy: state.accuracy,
-        speed: state.speed
-    }
-    let languageState = {
-        language: state.language,
-        setRussian() {
-            dispatch({type: SET_LANGUAGE, language: 'rus'})
-        },
-        setEnglish() {
-            dispatch({type: SET_LANGUAGE, language: 'eng'})
-        }
-    }
-    
     
     const onStart = () => {
         setShowStart(false);
@@ -129,17 +126,13 @@ const App = () => {
         if (state.language === 'rus') {
             getText.getCyrillicText()
             .then(result => {
-                dispatch({type: SET_INCOMING_VALUES, incomingValues: result.substr(1)})
-                dispatch({type: SET_CURRENT_SYMBOL, currentSymbol: result.charAt(0)})
-                dispatch({type: SET_LENGTH, length: result.length})
+                dispatch({type: SET_TEXT, result})
             })
             .catch(err => console.log(err))
         } else if (state.language === 'eng') {
             getText.getLatinText()
             .then(result => {
-                dispatch({type: SET_INCOMING_VALUES, incomingValues: result.substr(1)})
-                dispatch({type: SET_CURRENT_SYMBOL, currentSymbol: result.charAt(0)})
-                dispatch({type: SET_LENGTH, length: result.length})
+                dispatch({type: SET_TEXT, result})
             })
             .catch(err => console.log(err))
         }
@@ -147,25 +140,24 @@ const App = () => {
 
     const onKeyPress = (key) => {
         const updateAccuracy = (expected, typed) => {
-            let percent = ((expected.length * 100) / (typed.length)).toFixed(0,) 
-            dispatch({type: SET_ACCURACY, accuracy: percent})
+            return ((expected.length * 100) / (typed.length)).toFixed(0,) 
         }
         let currentTime = getCurrentTime();
         if (!state.startTime) {
             dispatch({type: START, time: currentTime})
         };
+        dispatch({type: SET_TYPED_TEXT, text: state.typedText + key})
         let updatedTypedText = state.typedText + key;
         let updatedOutgoingValues = state.outgoingValues;
-
         if (key === state.currentSymbol) {
-            dispatch({type: SET_TYPED_TEXT, text: updatedTypedText})
-    
             updatedOutgoingValues += key;
+            dispatch({type: SET_TYPED_TEXT, text: updatedTypedText})
             dispatch({type: SET_OUTGOING_VALUES, outgoingValues: updatedOutgoingValues})
             dispatch({type: SET_CURRENT_SYMBOL, currentSymbol: state.incomingValues.charAt(0)})
             dispatch({type: SET_INCOMING_VALUES, incomingValues: state.incomingValues.substr(1)})
             dispatch({type: RIGHT_SYMBOL})
-            updateAccuracy(updatedOutgoingValues, updatedTypedText);
+            let accuracy = updateAccuracy(updatedOutgoingValues, updatedTypedText);
+            dispatch({type: SET_ACCURACY, accuracy})
             let isFinished = (state.startTime && !state.incomingValues)
             if (isFinished) {
                 dispatch({type: SET_OUTGOING_VALUES, outgoingValues: ''})
@@ -176,7 +168,8 @@ const App = () => {
             let isSameMistake = (updatedTypedText.slice(-2, -1) === updatedOutgoingValues.slice(-1))
             if (isSameMistake) {
                 dispatch({type: SET_TYPED_TEXT, text: updatedTypedText})
-                updateAccuracy(updatedOutgoingValues, updatedTypedText);
+                let accuracy = updateAccuracy(updatedOutgoingValues, updatedTypedText);
+                dispatch({type: SET_ACCURACY, accuracy})
             }
         }
         if (state.startTime) {
