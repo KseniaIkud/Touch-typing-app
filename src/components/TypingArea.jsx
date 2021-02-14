@@ -5,10 +5,12 @@ import {ProgressBar} from 'react-bootstrap';
 import restart from '../icons/restart.png';
 
 const TypingArea = (props) => {
+    let text = props.outgoingValues + props.incomingValues + 1
+    let percent = props.outgoingValues ? ((props.outgoingValues.length * 100) / text.length) : 0
     return (
         <div className={classes.typingArea}>
             <div className={classes.header}>
-                <ProgressBar now={60} variant="success" animated className="w-75"/>
+                <ProgressBar now={percent} variant="success" animated className="w-75"/>
                 <img src={restart} alt="restart" width="40" className={classes.restart} onClick={props.onStart}/>
             </div>
             <div className={classes.content}>
