@@ -17,7 +17,7 @@ const App = () => {
     const [accuracy, setAccuracy] = useState(100);
     const [typedText, setTypedText] = useState('');
     const [isWrongSymbol, setWrongSymbol] = useState(false);
-    const [showResalt, setShowResult] = useState (false);
+    const [showResult, setShowResult] = useState (false);
     const [showStart, setShowStart] = useState(true);
     const updateState = () => {
         setOutgoingValues('');
@@ -39,8 +39,8 @@ const App = () => {
     };
     const onStart = () => {
         setShowResult(false);
-        onTextButtonClick();
         setShowStart(false);
+        onTextButtonClick();
     }
     const updateAccuracy = (expected, typed) => {
         setAccuracy(((expected.length * 100) / (typed.length)).toFixed(0,));
@@ -83,28 +83,9 @@ const App = () => {
 
 
     return <div className="app">
-        <Start/>
+        <Start show={showStart} onStart={onStart}/>
         <TypingArea outgoingValues={outgoingValues} currentSymbol={currentSymbol} incomingValues={incomingValues} isWrong={isWrongSymbol} speed={speed} accuracy={accuracy} />
-        <Result speed={speed} accuracy={accuracy} show={showResalt} onStart={onStart}/>
-        <div className="app__content">
-            <div className="start" onClick={onTextButtonClick}>
-                Начать
-            </div>
-            
-            <div className="textarea">
-                <span>{outgoingValues}</span>
-                <span className={`${isWrongSymbol ? "current-symbol_wrong" : "current-symbol"}`}>{currentSymbol}</span>
-                <span>{incomingValues}</span>
-            </div>
-            <div className="result">
-                <div>
-                    Скорость (знаков в минуту): {speed}
-                </div>
-                <div>
-                    Точность (процент правильных символов): {accuracy}%
-                </div>
-            </div>
-        </div>
+        <Result speed={speed} accuracy={accuracy} show={showResult} onStart={onStart}/>
     </div>
 }
 
