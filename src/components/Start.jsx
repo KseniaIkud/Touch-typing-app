@@ -4,7 +4,7 @@ import {Alert, Button} from 'react-bootstrap';
 
 const Start = (props) => {
     return (
-        <div className="w-100 h-75 position-absolute d-flex justify-content-center">
+        <div className={props.show ? "w-100 h-75 position-absolute d-flex justify-content-center" : "d-none"}>
                 <Alert show={props.show} variant="secondary" className="w-25 align-self-center">
                     <Alert.Heading>Проверьте скорость своей печати</Alert.Heading>
                     <p>
