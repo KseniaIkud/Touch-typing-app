@@ -11,8 +11,26 @@ const SET_INCOMING_VALUES = 'SET_INCOMING_VALUES';
 const SET_CURRENT_SYMBOL = 'SET_CURRENT_SYMBOL';
 const WRONG_SYMBOL = 'WRONG_SYMBOL';
 const RIGHT_SYMBOL = 'RIGHT_SYMBOL';
+const SET_LENGTH = 'SET_LENGTH';
+const START = 'START';
+const SET_SPEED = 'SET_SPEED';
+const SET_ACCURACY = 'SET_ACCURACY';
+const SET_TYPED_TEXT = 'SET_TYPED_TEXT';
+const SET_LANGUAGE = 'SET_LANGUAGE';
+const RESET_STATE = 'RESET_STATE';
+
 function reducer(state, action) {
     switch (action.type) {
+        case RESET_STATE: 
+            return  {
+                ...state,
+                outgoingValues: '',
+                isSymbolWrong: false,
+                startTime: null,
+                speed: 0,
+                accuracy: 100,
+                typedText: ''
+            }
         case SET_OUTGOING_VALUES:
             return {
                 ...state,
@@ -23,91 +41,106 @@ function reducer(state, action) {
                 ...state,
                 incomingValues: action.incomingValues
             }
-        case SET_CURRENT_SYMBOL: {
+        case SET_CURRENT_SYMBOL: 
             return {
                 ...state,
                 currentSymbol: action.currentSymbol
             }
-        }
-        case WRONG_SYMBOL: {
+        case WRONG_SYMBOL: 
             return {
                 ...state,
                 isSymbolWrong: true
             }
-        }
-        case RIGHT_SYMBOL: {
+        case RIGHT_SYMBOL: 
             return {
                 ...state,
                 isSymbolWrong: false
             }
-        }
+        case SET_LENGTH: 
+            return {
+                ...state,
+                length: action.length
+            }
+        case START: 
+            return {
+                ...state,
+                startTime: action.time
+            }
+        case SET_SPEED:
+            return {
+                ...state,
+                speed: action.speed
+            }
+        case SET_ACCURACY:
+            return {
+                ...state,
+                accuracy: action.accuracy
+            }
+        case SET_TYPED_TEXT:
+            return {
+                ...state,
+                typedText: action.text
+            }
+        case SET_LANGUAGE:
+            return {
+                ...state,
+                language: action.language
+            }
         default:
             return state
     }
 }
 const initialState = {
+    length: 0,
     outgoingValues: '', 
     incomingValues: '',
     currentSymbol: '',
-    isSymbolWrong: false
+    isSymbolWrong: false,
+    startTime: null,
+    speed: 0,
+    accuracy: 100,
+    typedText: '',
+    language: 'rus'
 }
 const App = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    const [startTime, setStartTime] = useState();
-    const [speed, setSpeed] = useState(0);
-    const [accuracy, setAccuracy] = useState(100);
-    const [typedText, setTypedText] = useState('');
     const [showStart, setShowStart] = useState(true);
     const [showResult, setShowResult] = useState (false);
-    const [language, setLanguage] = useState('rus');
 
-    let textState = {
-        text: state.outgoingValues + state.currentSymbol + state.incomingValues,
-        incomingValues: state.incomingValues, 
-        outgoingValues: state.outgoingValues,
-        currentSymbol: state.currentSymbol,
-        isWrongSymbol: state.isSymbolWrong
-    }
     let resultState = {
-        accuracy,
-        speed
+        accuracy: state.accuracy,
+        speed: state.speed
     }
     let languageState = {
-        language,
+        language: state.language,
         setRussian() {
-            setLanguage('rus')    
+            dispatch({type: SET_LANGUAGE, language: 'rus'})
         },
         setEnglish() {
-            setLanguage('eng')
+            dispatch({type: SET_LANGUAGE, language: 'eng'})
         }
     }
     
-    const updateState = () => {
-        dispatch({type: SET_OUTGOING_VALUES, outgoingValues: ''})
-        setStartTime();
-        setSpeed(0);
-        setAccuracy(100);
-        setTypedText('');
-        dispatch({type: RIGHT_SYMBOL})
-    }
+    
     const onStart = () => {
         setShowStart(false);
         setShowResult(false);
-        updateState();
-        if (language === 'rus') {
+        dispatch({type: RESET_STATE})
+        if (state.language === 'rus') {
             getText.getCyrillicText()
             .then(result => {
                 dispatch({type: SET_INCOMING_VALUES, incomingValues: result.substr(1)})
                 dispatch({type: SET_CURRENT_SYMBOL, currentSymbol: result.charAt(0)})
-                
+                dispatch({type: SET_LENGTH, length: result.length})
             })
             .catch(err => console.log(err))
-        } else if (language === 'eng') {
+        } else if (state.language === 'eng') {
             getText.getLatinText()
             .then(result => {
                 dispatch({type: SET_INCOMING_VALUES, incomingValues: result.substr(1)})
                 dispatch({type: SET_CURRENT_SYMBOL, currentSymbol: result.charAt(0)})
+                dispatch({type: SET_LENGTH, length: result.length})
             })
             .catch(err => console.log(err))
         }
@@ -115,25 +148,26 @@ const App = () => {
 
     const onKeyPress = (key) => {
         const updateAccuracy = (expected, typed) => {
-            setAccuracy(((expected.length * 100) / (typed.length)).toFixed(0,));
+            let percent = ((expected.length * 100) / (typed.length)).toFixed(0,) 
+            dispatch({type: SET_ACCURACY, accuracy: percent})
         }
         let currentTime = getCurrentTime();
-        if (!startTime) {
-            setStartTime(currentTime);
+        if (!state.startTime) {
+            dispatch({type: START, time: currentTime})
         };
-        let updatedTypedText = typedText + key;
+        let updatedTypedText = state.typedText + key;
         let updatedOutgoingValues = state.outgoingValues;
 
         if (key === state.currentSymbol) {
-            setTypedText(updatedTypedText);
-
+            dispatch({type: SET_TYPED_TEXT, text: updatedTypedText})
+    
             updatedOutgoingValues += key;
             dispatch({type: SET_OUTGOING_VALUES, outgoingValues: updatedOutgoingValues})
             dispatch({type: SET_CURRENT_SYMBOL, currentSymbol: state.incomingValues.charAt(0)})
             dispatch({type: SET_INCOMING_VALUES, incomingValues: state.incomingValues.substr(1)})
             dispatch({type: RIGHT_SYMBOL})
             updateAccuracy(updatedOutgoingValues, updatedTypedText);
-            let isFinished = (startTime && !state.incomingValues)
+            let isFinished = (state.startTime && !state.incomingValues)
             if (isFinished) {
                 dispatch({type: SET_OUTGOING_VALUES, outgoingValues: ''})
                 setShowResult(true);
@@ -142,14 +176,14 @@ const App = () => {
             dispatch({type: WRONG_SYMBOL})
             let isSameMistake = (updatedTypedText.slice(-2, -1) === updatedOutgoingValues.slice(-1))
             if (isSameMistake) {
-                setTypedText(updatedTypedText);
+                dispatch({type: SET_TYPED_TEXT, text: updatedTypedText})
                 updateAccuracy(updatedOutgoingValues, updatedTypedText);
             }
         }
-        if (startTime) {
-            const duration = (currentTime - startTime) / 60000;
+        if (state.startTime) {
+            const duration = (currentTime - state.startTime) / 60000;
             const speed = (updatedOutgoingValues.length / duration).toFixed(0,);
-            setSpeed(speed);
+            dispatch({type: SET_SPEED, speed})
         }
     }
 
@@ -158,7 +192,7 @@ const App = () => {
         <div>
            <Start onStart={onStart} show={showStart} language={languageState}/>
            <Result onStart={onStart} show={showResult} result={resultState} language={languageState}/>
-           <TypingArea onStart={onStart} result={resultState} text={textState} />
+           <TypingArea onStart={onStart} result={resultState} text={state} />
         </div>
     )
 }

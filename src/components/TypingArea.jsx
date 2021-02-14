@@ -5,8 +5,7 @@ import {ProgressBar} from 'react-bootstrap';
 import restart from '../icons/restart.png';
 
 const TypingArea = (props) => {
-    let percent = props.text.outgoingValues ? 
-        ((props.text.outgoingValues.length * 100) / props.text.text.length) : 0
+    let percent = (props.text.outgoingValues.length * 100) / props.text.length
     return (
         <div className={classes.typingArea}>
             <div className={classes.header}>
@@ -18,7 +17,7 @@ const TypingArea = (props) => {
                     <span className={classes.outgoingValue}>
                         {props.text.outgoingValues}
                     </span>
-                    <span className={`${classes.key} ${props.text.isWrongSymbol && classes.keyWrong}`}>
+                    <span className={`${classes.key} ${props.text.isSymbolWrong && classes.keyWrong}`}>
                         {props.text.currentSymbol}
                     </span>
                     <span>{props.text.incomingValues}</span>
