@@ -18,7 +18,7 @@ const TypingArea = (props) => {
                     <span className={classes.outgoingValue}>
                         {props.text.outgoingValues}
                     </span>
-                    <span className={`${props.text.isWrongSymbol ? classes.keyWrong : classes.keySuccess}`}>
+                    <span className={`${classes.key} ${props.text.isWrongSymbol && classes.keyWrong}`}>
                         {props.text.currentSymbol}
                     </span>
                     <span>{props.text.incomingValues}</span>

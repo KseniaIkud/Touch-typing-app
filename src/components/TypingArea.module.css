@@ -32,16 +32,17 @@
 .outgoingValue {
     color: green;
 }
+.key {
+    background-color: green;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+}
 .keyWrong {
     border: 2px solid red;
     background-color: crimson;
-    height: 20px;
+    color: #ffffff;
 }
-.keySuccess {
-    border: 2px solid green;
-    background-color: greenyellow;
-    height: 20px;
-}
+
 .result {
     font-size: 24px;
     width: 25%;
