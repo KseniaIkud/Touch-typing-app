@@ -18,7 +18,23 @@ const App = () => {
     const [isWrongSymbol, setWrongSymbol] = useState(false);
     const [showStart, setShowStart] = useState(true);
     const [showResult, setShowResult] = useState (false);
-    const [isCyrillic, setCyrillic] = useState(true);
+    const [language, setLanguage] = useState('rus');
+
+    let languageState = {
+        language,
+        setRussian() {
+            setLanguage('rus')    
+        },
+        setEnglish() {
+            setLanguage('eng')
+        }
+    }
+    const setRussian = () => {
+        setLanguage('rus')
+    }
+    const setEnglish = () => {
+        setLanguage('eng')
+    }
     
     const updateState = () => {
         setOutgoingValues('');
@@ -32,14 +48,14 @@ const App = () => {
         setShowStart(false);
         setShowResult(false);
         updateState();
-        if (isCyrillic) {
+        if (language === 'rus') {
             getText.getCyrillicText()
             .then(result => {
                 setIncomingValues(result.substr(1));
                 setCurrentSymbol(result.charAt(0));
             })
             .catch(err => console.log(err))
-        } else {
+        } else if (language === 'eng') {
             getText.getLatinText()
             .then(result => {
                 setIncomingValues(result.substr(1));
@@ -93,8 +109,11 @@ const App = () => {
     useKeyPress(onKeyPress)
     return (
         <div>
-           <Start show={showStart} onStart={onStart}/>
-           <Result speed={speed} accuracy={accuracy} show={showResult} onStart={onStart} />
+           <Start show={showStart} onStart={onStart} language={languageState}/>
+
+           <Result speed={speed} accuracy={accuracy} show={showResult} onStart={onStart} 
+                language={languageState}/>
+
            <TypingArea outgoingValues={outgoingValues} 
                 currentSymbol={currentSymbol} incomingValues={incomingValues} 
                 isWrong={isWrongSymbol} speed={speed} accuracy={accuracy} onStart={onStart}/>

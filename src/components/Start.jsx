@@ -1,5 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Language from './Language';
 import {Alert, Button} from 'react-bootstrap';
 
 const Start = (props) => {
@@ -11,10 +12,11 @@ const Start = (props) => {
                         Наберите небольшой текст, чтобы узнать скорость и точноть набора
                     </p>
                     <hr />
-                    <div className="d-flex justify-content-start">
+                    <div className="d-flex justify-content-between">
                     <Button onClick={props.onStart} variant="outline-info">
                         Начать
                     </Button>
+                    <Language state={props.language}/>
                     </div>
                 </Alert>
             
