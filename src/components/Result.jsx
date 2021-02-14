@@ -1,5 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Language from './Language';
 import {Alert, Button} from 'react-bootstrap';
 
 const Result = (props) => {
@@ -8,16 +9,17 @@ const Result = (props) => {
             <Alert show={props.show} variant="success" className="w-25 align-self-center">
                 <Alert.Heading>Ваш результат</Alert.Heading>
                 <p>
-                    {props.speed} знаков в минуту
+                    {props.result.speed} знаков в минуту
                 </p>
                 <p>
-                    {props.accuracy}% точности
+                    {props.result.accuracy}% точности
                 </p>
                 <hr />
-                <div className="d-flex justify-content-center">
+                <div className="d-flex justify-content-between">
                 <Button onClick={props.onStart} variant="outline-success">
                     Начать заново
                 </Button>
+                <Language state={props.language}/>
                 </div>
             </Alert>
         </div>

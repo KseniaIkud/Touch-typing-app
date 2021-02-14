@@ -20,6 +20,17 @@ const App = () => {
     const [showResult, setShowResult] = useState (false);
     const [language, setLanguage] = useState('rus');
 
+    let textState = {
+        text: outgoingValues + currentSymbol + incomingValues,
+        incomingValues, 
+        outgoingValues,
+        currentSymbol,
+        isWrongSymbol
+    }
+    let resultState = {
+        accuracy,
+        speed
+    }
     let languageState = {
         language,
         setRussian() {
@@ -28,12 +39,6 @@ const App = () => {
         setEnglish() {
             setLanguage('eng')
         }
-    }
-    const setRussian = () => {
-        setLanguage('rus')
-    }
-    const setEnglish = () => {
-        setLanguage('eng')
     }
     
     const updateState = () => {
@@ -109,14 +114,9 @@ const App = () => {
     useKeyPress(onKeyPress)
     return (
         <div>
-           <Start show={showStart} onStart={onStart} language={languageState}/>
-
-           <Result speed={speed} accuracy={accuracy} show={showResult} onStart={onStart} 
-                language={languageState}/>
-
-           <TypingArea outgoingValues={outgoingValues} 
-                currentSymbol={currentSymbol} incomingValues={incomingValues} 
-                isWrong={isWrongSymbol} speed={speed} accuracy={accuracy} onStart={onStart}/>
+           <Start onStart={onStart} show={showStart} language={languageState}/>
+           <Result onStart={onStart} show={showResult} result={resultState} language={languageState}/>
+           <TypingArea onStart={onStart} result={resultState} text={textState} />
         </div>
     )
 }
