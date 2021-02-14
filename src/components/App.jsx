@@ -3,8 +3,9 @@ import './App.css';
 import getText from '../utils/getText';
 import getCurrentTime from '../utils/getCurrentTime';
 import useKeyPress from '../hooks/useKeyPress';
-import Start from './Start'
-import TypingArea from './TypingArea'
+import Start from './Start';
+import TypingArea from './TypingArea';
+import Result from './Result';
 
 const App = () => {
     
@@ -16,6 +17,8 @@ const App = () => {
     const [accuracy, setAccuracy] = useState(100);
     const [typedText, setTypedText] = useState('');
     const [isWrongSymbol, setWrongSymbol] = useState(false);
+    const [showResalt, setShowResult] = useState (false);
+    const [showStart, setShowStart] = useState(true);
     const updateState = () => {
         setOutgoingValues('');
         setStartTime();
@@ -34,6 +37,11 @@ const App = () => {
             })
             .catch(err => console.log(err))
     };
+    const onStart = () => {
+        setShowResult(false);
+        onTextButtonClick();
+        setShowStart(false);
+    }
     const updateAccuracy = (expected, typed) => {
         setAccuracy(((expected.length * 100) / (typed.length)).toFixed(0,));
     }
@@ -57,6 +65,7 @@ const App = () => {
             updateAccuracy(updatedOutgoingValues, updatedTypedText);
             if (startTime && !incomingValues) {
                 setOutgoingValues('');
+                setShowResult(true)
             }
         } else {
             setWrongSymbol(true);
@@ -76,6 +85,7 @@ const App = () => {
     return <div className="app">
         <Start/>
         <TypingArea outgoingValues={outgoingValues} currentSymbol={currentSymbol} incomingValues={incomingValues} isWrong={isWrongSymbol} speed={speed} accuracy={accuracy} />
+        <Result speed={speed} accuracy={accuracy} show={showResalt} onStart={onStart}/>
         <div className="app__content">
             <div className="start" onClick={onTextButtonClick}>
                 Начать
