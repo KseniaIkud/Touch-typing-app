@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import './App.css';
 import getText from '../utils/getText';
 import getCurrentTime from '../utils/getCurrentTime';
 import useKeyPress from '../hooks/useKeyPress';
-import {Alert, Button} from 'react-bootstrap';
 import Start from './Start';
 import TypingArea from './TypingArea';
 import Result from './Result';
@@ -87,10 +85,10 @@ const App = () => {
     useKeyPress(onKeyPress)
 
 
-    return <div className="app">
+    return <div>
         <Start show={showStart} onStart={onStart}/>
         <TypingArea outgoingValues={outgoingValues} currentSymbol={currentSymbol} incomingValues={incomingValues} isWrong={isWrongSymbol} speed={speed} accuracy={accuracy} />
-        <Result speed={speed} accuracy={accuracy} show={showResult} onStart={onStart}/>
+        <Result speed={speed} accuracy={accuracy} show={showResult} onStart={onStart} />
     </div>
 }
 
