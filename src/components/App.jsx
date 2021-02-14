@@ -4,6 +4,7 @@ import getText from '../utils/getText';
 import getCurrentTime from '../utils/getCurrentTime';
 import useKeyPress from '../hooks/useKeyPress';
 import Start from './Start'
+import TypingArea from './TypingArea'
 
 const App = () => {
     
@@ -74,6 +75,7 @@ const App = () => {
 
     return <div className="app">
         <Start/>
+        <TypingArea outgoingValues={outgoingValues} currentSymbol={currentSymbol} incomingValues={incomingValues} isWrong={isWrongSymbol} speed={speed} accuracy={accuracy} />
         <div className="app__content">
             <div className="start" onClick={onTextButtonClick}>
                 Начать

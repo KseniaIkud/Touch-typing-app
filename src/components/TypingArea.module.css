@@ -1,0 +1,53 @@
+.typingArea {
+    margin: 0 auto;
+    max-width: 900px;
+    min-width: 320px;
+}
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 0 auto 15px;
+}
+.restart {
+    cursor: pointer;
+    border-radius: 50%;
+}
+.restart:hover {
+    opacity: .8;
+    box-shadow: 0 0 10px gray;
+}
+.content {
+    min-height: 300px;
+    border: 1px solid gray;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+}
+.text {
+    color: gray;
+    font-size: 22px;
+    width: 100%;
+}
+.outgoingValue {
+    color: green;
+}
+.keyWrong {
+    border: 2px solid red;
+    background-color: crimson;
+    height: 20px;
+}
+.keySuccess {
+    border: 2px solid green;
+    background-color: greenyellow;
+    height: 20px;
+}
+.result {
+    font-size: 24px;
+    max-width: 150px;
+    text-align: center;
+    background-color: lemonchiffon;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
