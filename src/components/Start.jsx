@@ -2,7 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Alert, Button} from 'react-bootstrap';
 
-const Result = (props) => {
+const Start = (props) => {
     return (
         <>
             <Alert show={props.show} variant="secondary">
@@ -21,4 +21,4 @@ const Result = (props) => {
     )
 }
 
-export default Result
+export default Start

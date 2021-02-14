@@ -3,11 +3,17 @@ import './App.css';
 import getText from '../utils/getText';
 import getCurrentTime from '../utils/getCurrentTime';
 import useKeyPress from '../hooks/useKeyPress';
+import {Alert, Button} from 'react-bootstrap';
 import Start from './Start';
 import TypingArea from './TypingArea';
 import Result from './Result';
 
 const App = () => {
+
+    const[result2, setResult2] = useState({
+        speed: 0,
+        accuracy: 100
+    });
     
     const [outgoingValues, setOutgoingValues] = useState('');
     const [incomingValues, setIncomingValues] = useState();
@@ -27,7 +33,9 @@ const App = () => {
         setTypedText('');
         setWrongSymbol(false);
     }
-    const onTextButtonClick = () => {
+    const onStart = () => {
+        setShowResult(false);
+        setShowStart(false);
         getText()
             .then(result => {
                 let wholeText = result[0];
@@ -37,13 +45,12 @@ const App = () => {
             })
             .catch(err => console.log(err))
     };
-    const onStart = () => {
-        setShowResult(false);
-        setShowStart(false);
-        onTextButtonClick();
-    }
     const updateAccuracy = (expected, typed) => {
-        setAccuracy(((expected.length * 100) / (typed.length)).toFixed(0,));
+        setResult2({
+            ...result2,
+            accuracy: ((expected.length * 100) / (typed.length)).toFixed(0,)
+        })
+        // setAccuracy(((expected.length * 100) / (typed.length)).toFixed(0,));
     }
 
     useKeyPress((key) => {
@@ -84,7 +91,7 @@ const App = () => {
 
     return <div className="app">
         <Start show={showStart} onStart={onStart}/>
-        <TypingArea outgoingValues={outgoingValues} currentSymbol={currentSymbol} incomingValues={incomingValues} isWrong={isWrongSymbol} speed={speed} accuracy={accuracy} />
+        <TypingArea outgoingValues={outgoingValues} currentSymbol={currentSymbol} incomingValues={incomingValues} isWrong={isWrongSymbol} speed={result2.speed} accuracy={result2.accuracy} />
         <Result speed={speed} accuracy={accuracy} show={showResult} onStart={onStart}/>
     </div>
 }
