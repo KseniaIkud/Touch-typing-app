@@ -1,6 +1,6 @@
 const getText = {
     getLatinText() {
-        return fetch('https://baconipsum.com/api/?type=all-meat&sentences=1&start-with-lorem=1')
+        return fetch('https://baconipsum.com/api/?type=all-meat&sentences=4')
         .then(response => response.json())
         .then(array => array[0])
     },
