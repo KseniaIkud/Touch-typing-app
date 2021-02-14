@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 import getText from '../utils/getText';
 import getCurrentTime from '../utils/getCurrentTime';
 import useKeyPress from '../hooks/useKeyPress';
@@ -6,26 +6,68 @@ import Start from './Start';
 import TypingArea from './TypingArea';
 import Result from './Result';
 
+const SET_OUTGOING_VALUES = 'SET_OUTGOING_VALUES';
+const SET_INCOMING_VALUES = 'SET_INCOMING_VALUES';
+const SET_CURRENT_SYMBOL = 'SET_CURRENT_SYMBOL';
+const WRONG_SYMBOL = 'WRONG_SYMBOL';
+const RIGHT_SYMBOL = 'RIGHT_SYMBOL';
+function reducer(state, action) {
+    switch (action.type) {
+        case SET_OUTGOING_VALUES:
+            return {
+                ...state,
+                outgoingValues: action.outgoingValues
+            }
+        case SET_INCOMING_VALUES:
+            return {
+                ...state,
+                incomingValues: action.incomingValues
+            }
+        case SET_CURRENT_SYMBOL: {
+            return {
+                ...state,
+                currentSymbol: action.currentSymbol
+            }
+        }
+        case WRONG_SYMBOL: {
+            return {
+                ...state,
+                isSymbolWrong: true
+            }
+        }
+        case RIGHT_SYMBOL: {
+            return {
+                ...state,
+                isSymbolWrong: false
+            }
+        }
+        default:
+            return state
+    }
+}
+const initialState = {
+    outgoingValues: '', 
+    incomingValues: '',
+    currentSymbol: '',
+    isSymbolWrong: false
+}
 const App = () => {
-    
-    const [outgoingValues, setOutgoingValues] = useState('');
-    const [incomingValues, setIncomingValues] = useState();
-    const [currentSymbol, setCurrentSymbol] = useState();
+    const [state, dispatch] = useReducer(reducer, initialState);
+
     const [startTime, setStartTime] = useState();
     const [speed, setSpeed] = useState(0);
     const [accuracy, setAccuracy] = useState(100);
     const [typedText, setTypedText] = useState('');
-    const [isWrongSymbol, setWrongSymbol] = useState(false);
     const [showStart, setShowStart] = useState(true);
     const [showResult, setShowResult] = useState (false);
     const [language, setLanguage] = useState('rus');
 
     let textState = {
-        text: outgoingValues + currentSymbol + incomingValues,
-        incomingValues, 
-        outgoingValues,
-        currentSymbol,
-        isWrongSymbol
+        text: state.outgoingValues + state.currentSymbol + state.incomingValues,
+        incomingValues: state.incomingValues, 
+        outgoingValues: state.outgoingValues,
+        currentSymbol: state.currentSymbol,
+        isWrongSymbol: state.isSymbolWrong
     }
     let resultState = {
         accuracy,
@@ -42,12 +84,12 @@ const App = () => {
     }
     
     const updateState = () => {
-        setOutgoingValues('');
+        dispatch({type: SET_OUTGOING_VALUES, outgoingValues: ''})
         setStartTime();
         setSpeed(0);
         setAccuracy(100);
         setTypedText('');
-        setWrongSymbol(false);
+        dispatch({type: RIGHT_SYMBOL})
     }
     const onStart = () => {
         setShowStart(false);
@@ -56,15 +98,16 @@ const App = () => {
         if (language === 'rus') {
             getText.getCyrillicText()
             .then(result => {
-                setIncomingValues(result.substr(1));
-                setCurrentSymbol(result.charAt(0));
+                dispatch({type: SET_INCOMING_VALUES, incomingValues: result.substr(1)})
+                dispatch({type: SET_CURRENT_SYMBOL, currentSymbol: result.charAt(0)})
+                
             })
             .catch(err => console.log(err))
         } else if (language === 'eng') {
             getText.getLatinText()
             .then(result => {
-                setIncomingValues(result.substr(1));
-                setCurrentSymbol(result.charAt(0));
+                dispatch({type: SET_INCOMING_VALUES, incomingValues: result.substr(1)})
+                dispatch({type: SET_CURRENT_SYMBOL, currentSymbol: result.charAt(0)})
             })
             .catch(err => console.log(err))
         }
@@ -79,25 +122,24 @@ const App = () => {
             setStartTime(currentTime);
         };
         let updatedTypedText = typedText + key;
-        let updatedOutgoingValues = outgoingValues;
+        let updatedOutgoingValues = state.outgoingValues;
 
-        if (key === currentSymbol) {
+        if (key === state.currentSymbol) {
             setTypedText(updatedTypedText);
 
             updatedOutgoingValues += key;
-            setOutgoingValues(updatedOutgoingValues);
-
-            setCurrentSymbol(incomingValues.charAt(0));
-            setIncomingValues(incomingValues.substr(1));
-            setWrongSymbol(false);
+            dispatch({type: SET_OUTGOING_VALUES, outgoingValues: updatedOutgoingValues})
+            dispatch({type: SET_CURRENT_SYMBOL, currentSymbol: state.incomingValues.charAt(0)})
+            dispatch({type: SET_INCOMING_VALUES, incomingValues: state.incomingValues.substr(1)})
+            dispatch({type: RIGHT_SYMBOL})
             updateAccuracy(updatedOutgoingValues, updatedTypedText);
-            let isFinished = (startTime && !incomingValues)
+            let isFinished = (startTime && !state.incomingValues)
             if (isFinished) {
-                setOutgoingValues('');
+                dispatch({type: SET_OUTGOING_VALUES, outgoingValues: ''})
                 setShowResult(true);
             }
         } else {
-            setWrongSymbol(true);
+            dispatch({type: WRONG_SYMBOL})
             let isSameMistake = (updatedTypedText.slice(-2, -1) === updatedOutgoingValues.slice(-1))
             if (isSameMistake) {
                 setTypedText(updatedTypedText);
