@@ -4,36 +4,37 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {ProgressBar} from 'react-bootstrap';
 import restart from '../icons/restart.png';
 
-const TypingArea = (props) => {
-    let percent = (props.text.outgoingValues.length * 100) / props.text.length
+const TypingArea = ({onStart, state}) => {
+    let percent = (state.outgoingValues.length * 100) / state.length
     return (
         <div className={classes.typingArea}>
             <div className={classes.header}>
                 <ProgressBar now={percent} variant="success" animated className="w-75"/>
-                <img src={restart} alt="restart" width="40" className={classes.restart} onClick={props.onStart}/>
+                <img src={restart} alt="restart" width="40" className={classes.restart} 
+                    onClick={onStart}/>
             </div>
             <div className={classes.content}>
                 <div className={classes.text}>
                     <span className={classes.outgoingValue}>
-                        {props.text.outgoingValues}
+                        {state.outgoingValues}
                     </span>
-                    <span className={`${classes.key} ${props.text.isSymbolWrong && classes.keyWrong}`}>
-                        {props.text.currentSymbol}
+                    <span className={`${classes.key} ${state.isSymbolWrong && classes.keyWrong}`}>
+                        {state.currentSymbol}
                     </span>
-                    <span>{props.text.incomingValues}</span>
+                    <span>{state.incomingValues}</span>
                 </div>
                 <div className={classes.result}>
                     <div>
                         Скорость 
                         <div>
-                            {props.result.speed} зн/мин
+                            {state.speed} зн/мин
                         </div>
                     </div>
                     
                     <div>
                         Точность
                         <div>
-                            {props.result.accuracy}%
+                            {state.accuracy}%
                         </div>
                     </div>
                 </div>

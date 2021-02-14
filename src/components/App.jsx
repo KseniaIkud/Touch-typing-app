@@ -104,7 +104,6 @@ const initialState = {
 }
 const App = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
-
     const [showStart, setShowStart] = useState(true);
     const [showResult, setShowResult] = useState (false);
 
@@ -190,9 +189,9 @@ const App = () => {
     useKeyPress(onKeyPress)
     return (
         <div>
-           <Start onStart={onStart} show={showStart} language={languageState}/>
-           <Result onStart={onStart} show={showResult} result={resultState} language={languageState}/>
-           <TypingArea onStart={onStart} result={resultState} text={state} />
+           <Start onStart={onStart} show={showStart} state={state} dispatch={dispatch}/>
+           <Result onStart={onStart} show={showResult} state={state} dispatch={dispatch}/>
+           <TypingArea onStart={onStart} state={state} />
         </div>
     )
 }

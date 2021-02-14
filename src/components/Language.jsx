@@ -2,18 +2,24 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Dropdown } from 'react-bootstrap';
 
-const Language = (props) => {
+const Language = ({state, dispatch}) => {
+    const setRussian = () => {
+        dispatch({type: 'SET_LANGUAGE', language: 'rus'})
+    }
+    const setEnglish = () => {
+        dispatch({type: 'SET_LANGUAGE', language: 'eng'})
+    }
 
     return (
         <Dropdown>
             <Dropdown.Toggle variant="info" id="dropdown-basic">
-                {props.state.language === 'eng' && 'английский'}
-                {props.state.language === 'rus' && 'русский'}
+                {state.language === 'eng' && 'английский'}
+                {state.language === 'rus' && 'русский'}
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-                <Dropdown.Item eventKey="1" onClick={props.state.setRussian}>русский</Dropdown.Item>
-                <Dropdown.Item eventKey="2" onClick={props.state.setEnglish}>английский</Dropdown.Item>
+                <Dropdown.Item eventKey="1" onClick={setRussian}>русский</Dropdown.Item>
+                <Dropdown.Item eventKey="2" onClick={setEnglish}>английский</Dropdown.Item>
             </Dropdown.Menu>
         </Dropdown>
     )

@@ -3,23 +3,23 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Language from './Language';
 import {Alert, Button} from 'react-bootstrap';
 
-const Result = (props) => {
+const Result = ({onStart, show, state, dispatch}) => {
     return (
-        <div className={props.show ? "w-100 h-75 position-absolute d-flex justify-content-center" : "d-none"}>
-            <Alert show={props.show} variant="success" className="w-25 align-self-center">
+        <div className={show ? "w-100 h-75 position-absolute d-flex justify-content-center" : "d-none"}>
+            <Alert show={show} variant="success" className="w-25 align-self-center">
                 <Alert.Heading>Ваш результат</Alert.Heading>
                 <p>
-                    {props.result.speed} знаков в минуту
+                    {state.speed} знаков в минуту
                 </p>
                 <p>
-                    {props.result.accuracy}% точности
+                    {state.accuracy}% точности
                 </p>
                 <hr />
                 <div className="d-flex justify-content-between">
-                <Button onClick={props.onStart} variant="outline-success">
+                <Button onClick={onStart} variant="outline-success">
                     Начать заново
                 </Button>
-                <Language state={props.language}/>
+                <Language state={state} dispatch={dispatch}/>
                 </div>
             </Alert>
         </div>
