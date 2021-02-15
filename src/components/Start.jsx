@@ -3,10 +3,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Language from './Language';
 import {Alert, Button} from 'react-bootstrap';
 
-const Start = ({show, onStart, language, dispatch}) => {
+const Start = ({onStart, state, dispatch}) => {
     return (
-        <div className={show ? "w-100 h-75 position-absolute d-flex justify-content-center" : "d-none"}>
-                <Alert show={show} variant="secondary" className="w-25 align-self-center">
+        <div className={state.isStart ? "w-100 h-75 position-absolute d-flex justify-content-center" : "d-none"}>
+                <Alert show={state.isStart} variant="secondary" className="w-25 align-self-center">
                     <Alert.Heading>Проверьте скорость своей печати</Alert.Heading>
                     <p>
                         Наберите небольшой текст, чтобы узнать скорость и точноть набора
@@ -16,7 +16,7 @@ const Start = ({show, onStart, language, dispatch}) => {
                     <Button onClick={onStart} variant="outline-info">
                         Начать
                     </Button>
-                    <Language language={language} dispatch={dispatch}/>
+                    <Language language={state.language} dispatch={dispatch}/>
                     </div>
                 </Alert>
             

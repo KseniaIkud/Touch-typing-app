@@ -9,78 +9,59 @@ import reducer from '../state/reducer';
 import Start from './Start';
 import TypingArea from './TypingArea';
 import Result from './Result';
+import initialState from '../state/initialState'
 
-const initialState = {
-    text: {
-        outgoingValues: '',
-        typedText: '',
-        incomingValues: '',
-        length: 0, 
-        currentSymbol: '',
-        isSymbolWrong: false,
-        startTime: null,
-    },
-    result: {
-        speed: 0,
-        accuracy: 100,
-    },
-    language: 'rus',
-    isStart: true,
-    isResult: false
-}
+
 const App = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
-
     const onStart = () => {
-        dispatch({type: ACTIONS.RESET_STATE})
+        dispatch({ type: ACTIONS.RESET_STATE })
         if (state.language === 'rus') {
             getText.getCyrillicText()
-            .then(result => {
-                dispatch({type: ACTIONS.SET_TEXT, result})
-            })
-            .catch(err => console.log(err))
+                .then(result => {
+                    dispatch({ type: ACTIONS.SET_TEXT, result })
+                })
         } else if (state.language === 'eng') {
             getText.getLatinText()
-            .then(result => {
-                dispatch({type: ACTIONS.SET_TEXT, result})
-            })
-            .catch(err => console.log(err))
+                .then(result => {
+                    dispatch({ type: ACTIONS.SET_TEXT, result })
+                })
         }
     };
 
     const onKeyPress = (key) => {
-        if (!state.text.startTime) {
-            dispatch({type: ACTIONS.START, time: getCurrentTime()})
-        };
-        if (key === state.text.currentSymbol) {
-            dispatch({type: ACTIONS.SET_RIGHT_KEY, key})
-            let isFinished = (state.text.startTime && !state.text.incomingValues)
-            if (isFinished) { 
-                dispatch({type: ACTIONS.COMPLETE})
-            }
-        } else {
-            dispatch({type: ACTIONS.WRONG_SYMBOL})
-            let isMistakeNew = state.text.typedText.substr(-1) === state.text.outgoingValues.substr(-1);
-            if (isMistakeNew) {
-                let accuracy = ((state.text.outgoingValues.length * 100) / (state.text.typedText.length + 1)).toFixed(0,)
-                dispatch({type: ACTIONS.SET_ACCURACY, accuracy})
-                dispatch({type: ACTIONS.UPDATE_TYPED_TEXT, key})
-            }
+        dispatch({ type: ACTIONS.START, time: getCurrentTime() });
+
+        let isTyping = state.startTime && state.outgoingValues;
+        if (isTyping) {
+            dispatch({ type: ACTIONS.SET_SPEED, time: getCurrentTime() })
         }
-        if (state.text.startTime) {
-            const duration = (getCurrentTime() - state.text.startTime) / 60000;
-            const speed = (state.text.outgoingValues.length / duration).toFixed(0,);
-            dispatch({type: ACTIONS.SET_SPEED, speed})
+        
+        if (key === state.currentSymbol) {
+            dispatch({ type: ACTIONS.SET_RIGHT_KEY, key })
+            let isFinished = (state.startTime && !state.incomingValues)
+            if (isFinished) {
+                dispatch({ type: ACTIONS.COMPLETE })
+            }
+            
+        } else {
+            dispatch({ type: ACTIONS.WRONG_SYMBOL })
+
+            let isMistakeNew = state.typedText.substr(-1) === state.outgoingValues.substr(-1);
+            if (isMistakeNew) {
+                dispatch({ type: ACTIONS.SET_WRONG_KEY, key })
+            }
         }
     }
 
     useKeyPress(onKeyPress)
+
+
     return (
         <div>
-           <Start onStart={onStart} show={state.isStart} language={state.language} dispatch={dispatch}/>
-           <Result onStart={onStart} show={state.isResult} result={state.result} 
-                language={state.language}  dispatch={dispatch}/>
-           <TypingArea onStart={onStart} state={state} />
+            <Start onStart={onStart} state={state} dispatch={dispatch} />
+            <Result onStart={onStart} state={state} dispatch={dispatch} />
+            <TypingArea onStart={onStart} state={state} />
         </div>
     )
 }
