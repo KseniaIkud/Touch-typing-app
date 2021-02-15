@@ -24,16 +24,14 @@ const initialState = {
         speed: 0,
         accuracy: 100,
     },
-    language: 'rus'
+    language: 'rus',
+    isStart: true,
+    isResult: false
 }
 const App = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
-    const [showStart, setShowStart] = useState(true);
-    const [showResult, setShowResult] = useState (false);
-    
+
     const onStart = () => {
-        setShowStart(false);
-        setShowResult(false);
         dispatch({type: ACTIONS.RESET_STATE})
         if (state.language === 'rus') {
             getText.getCyrillicText()
@@ -59,7 +57,6 @@ const App = () => {
             let isFinished = (state.text.startTime && !state.text.incomingValues)
             if (isFinished) { 
                 dispatch({type: ACTIONS.COMPLETE})
-                setShowResult(true);
             }
         } else {
             dispatch({type: ACTIONS.WRONG_SYMBOL})
@@ -80,8 +77,8 @@ const App = () => {
     useKeyPress(onKeyPress)
     return (
         <div>
-           <Start onStart={onStart} show={showStart} language={state.language} dispatch={dispatch}/>
-           <Result onStart={onStart} show={showResult} result={state.result} 
+           <Start onStart={onStart} show={state.isStart} language={state.language} dispatch={dispatch}/>
+           <Result onStart={onStart} show={state.isResult} result={state.result} 
                 language={state.language}  dispatch={dispatch}/>
            <TypingArea onStart={onStart} state={state} />
         </div>

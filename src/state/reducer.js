@@ -1,7 +1,7 @@
-import actions from './actions';
+import ACTIONS from './actions';
 function reducer(state, action) {
     switch (action.type) {
-        case actions.RESET_STATE: 
+        case ACTIONS.RESET_STATE: 
             return  {
                 ...state,
                 text: {
@@ -15,9 +15,11 @@ function reducer(state, action) {
                     ...state.result,
                     speed: 0,
                     accuracy: 100,
-                }
+                },
+                isStart: false,
+                isResult: false
             }
-        case actions.SET_TEXT:
+        case ACTIONS.SET_TEXT:
             return {
                 ...state,
                 text: {
@@ -27,7 +29,7 @@ function reducer(state, action) {
                     currentSymbol: action.result.charAt(0),
                 },
             }
-        case actions.SET_RIGHT_KEY:
+        case ACTIONS.SET_RIGHT_KEY:
             return {
                 ...state,
                 text: {
@@ -43,15 +45,16 @@ function reducer(state, action) {
                     accuracy: (((state.text.outgoingValues.length + 1) * 100) / (state.text.typedText.length + 1)).toFixed(0,)
                 }           
             }
-        case actions.COMPLETE:
+        case ACTIONS.COMPLETE:
             return {
                 ...state,
+                isResult: true,
                 text: {
                     ...state.text,
                     outgoingValues: ''
                 }
             }
-        case actions.UPDATE_TYPED_TEXT:
+        case ACTIONS.UPDATE_TYPED_TEXT:
             return {
                 ...state,
                 text: {
@@ -59,7 +62,7 @@ function reducer(state, action) {
                     typedText: state.text.typedText + action.key
                 }
             }
-        case actions.WRONG_SYMBOL: 
+        case ACTIONS.WRONG_SYMBOL: 
             return {
                 ...state,
                 text: {
@@ -68,7 +71,7 @@ function reducer(state, action) {
                 }
             }
         
-        case actions.START: 
+        case ACTIONS.START: 
             return {
                 ...state,
                 text: {
@@ -76,7 +79,7 @@ function reducer(state, action) {
                     startTime: action.time
                 }
             }
-        case actions.SET_SPEED:
+        case ACTIONS.SET_SPEED:
             return {
                 ...state,
                 result: {
@@ -84,14 +87,14 @@ function reducer(state, action) {
                     speed: action.speed
                 }
             }
-        case actions.SET_ACCURACY:
+        case ACTIONS.SET_ACCURACY:
             return {
                 ...state,
                 result: {
                     accuracy: action.accuracy
                 }
             }
-        case actions.SET_LANGUAGE:
+        case ACTIONS.SET_LANGUAGE:
             return {
                 ...state,
                 language: action.language
