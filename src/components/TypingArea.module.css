@@ -25,6 +25,7 @@
     justify-content: space-between;
 }
 .text {
+    padding: 5px 10px;
     color: gray;
     font-size: 22px;
     width: 100%;
