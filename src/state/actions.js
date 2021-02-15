@@ -1,4 +1,4 @@
-const actions = {
+const ACTIONS = {
     RESET_STATE: 'RESET_STATE',
     SET_TEXT: 'SET_TEXT',
     SET_RIGHT_KEY: 'SET_RIGHT_KEY',
@@ -10,4 +10,4 @@ const actions = {
     UPDATE_TYPED_TEXT: 'UPDATE_TYPED_TEXT',
     SET_LANGUAGE: 'SET_LANGUAGE'
 }
-export default actions
+export default ACTIONS

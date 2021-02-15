@@ -4,64 +4,93 @@ function reducer(state, action) {
         case actions.RESET_STATE: 
             return  {
                 ...state,
-                outgoingValues: '',
-                isSymbolWrong: false,
-                startTime: null,
-                speed: 0,
-                accuracy: 100,
-                typedText: ''
+                text: {
+                    ...state.text,
+                    outgoingValues: '',
+                    typedText: '',
+                    isSymbolWrong: false,
+                    startTime: null,
+                },
+                result: {
+                    ...state.result,
+                    speed: 0,
+                    accuracy: 100,
+                }
             }
         case actions.SET_TEXT:
             return {
                 ...state,
-                incomingValues: action.result.substr(1),
-                currentSymbol: action.result.charAt(0),
-                length: action.result.length
-                
+                text: {
+                    ...state.text,
+                    incomingValues: action.result.substr(1),
+                    length: action.result.length,
+                    currentSymbol: action.result.charAt(0),
+                },
             }
         case actions.SET_RIGHT_KEY:
             return {
                 ...state,
-                typedText: state.typedText + action.key,
-                outgoingValues: state.outgoingValues + action.key,
-                currentSymbol: state.incomingValues.charAt(0),
-                incomingValues: state.incomingValues.substr(1),
-                isSymbolWrong: false,
-                accuracy: (((state.outgoingValues.length + 1) * 100) / (state.typedText.length + 1)).toFixed(0,)
+                text: {
+                    ...state.text,
+                    outgoingValues: state.text.outgoingValues + action.key,
+                    typedText: state.text.typedText + action.key,
+                    incomingValues: state.text.incomingValues.substr(1),
+                    currentSymbol: state.text.incomingValues.charAt(0),
+                    isSymbolWrong: false,
+                },
+                result: {
+                    ...state.result,
+                    accuracy: (((state.text.outgoingValues.length + 1) * 100) / (state.text.typedText.length + 1)).toFixed(0,)
+                }           
             }
         case actions.COMPLETE:
             return {
                 ...state,
-                outgoingValues: ''
+                text: {
+                    ...state.text,
+                    outgoingValues: ''
+                }
             }
         case actions.UPDATE_TYPED_TEXT:
             return {
                 ...state,
-                typedText: state.typedText + action.key
+                text: {
+                    ...state.text,
+                    typedText: state.text.typedText + action.key
+                }
             }
-        
         case actions.WRONG_SYMBOL: 
             return {
                 ...state,
-                isSymbolWrong: true
+                text: {
+                    ...state.text,
+                    isSymbolWrong: true
+                }
             }
         
         case actions.START: 
             return {
                 ...state,
-                startTime: action.time
+                text: {
+                    ...state.text,
+                    startTime: action.time
+                }
             }
         case actions.SET_SPEED:
             return {
                 ...state,
-                speed: action.speed
+                result: {
+                    ...state.result,
+                    speed: action.speed
+                }
             }
         case actions.SET_ACCURACY:
             return {
                 ...state,
-                accuracy: action.accuracy
+                result: {
+                    accuracy: action.accuracy
+                }
             }
-        
         case actions.SET_LANGUAGE:
             return {
                 ...state,

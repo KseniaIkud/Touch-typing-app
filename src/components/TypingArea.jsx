@@ -5,7 +5,7 @@ import {ProgressBar} from 'react-bootstrap';
 import restart from '../icons/restart.png';
 
 const TypingArea = ({onStart, state}) => {
-    let percent = (state.outgoingValues.length * 100) / state.length
+    let percent = (state.text.outgoingValues.length * 100) / state.text.length
     return (
         <div className={classes.typingArea}>
             <div className={classes.header}>
@@ -16,25 +16,25 @@ const TypingArea = ({onStart, state}) => {
             <div className={classes.content}>
                 <div className={classes.text}>
                     <span className={classes.outgoingValue}>
-                        {state.outgoingValues}
+                        {state.text.outgoingValues}
                     </span>
-                    <span className={`${classes.key} ${state.isSymbolWrong && classes.keyWrong}`}>
-                        {state.currentSymbol}
+                    <span className={`${classes.key} ${state.text.isSymbolWrong && classes.keyWrong}`}>
+                        {state.text.currentSymbol}
                     </span>
-                    <span>{state.incomingValues}</span>
+                    <span>{state.text.incomingValues}</span>
                 </div>
                 <div className={classes.result}>
                     <div>
                         Скорость 
                         <div>
-                            {state.speed} зн/мин
+                            {state.result.speed} зн/мин
                         </div>
                     </div>
                     
                     <div>
                         Точность
                         <div>
-                            {state.accuracy}%
+                            {state.result.accuracy}%
                         </div>
                     </div>
                 </div>
