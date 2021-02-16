@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import getText from '../utils/getText';
 import getCurrentTime from '../utils/getCurrentTime';
 
@@ -55,7 +55,6 @@ const App = () => {
     }
 
     useKeyPress(onKeyPress)
-
 
     return (
         <div>
