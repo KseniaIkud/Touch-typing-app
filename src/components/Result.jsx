@@ -1,11 +1,14 @@
 import React, {useContext} from 'react';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Language from './Language';
 import {Alert, Button} from 'react-bootstrap';
+
+import Language from './Language';
+
 import {Store} from '../store/reducer';
 
 const Result = ({onStart}) => {
-    const {state, dispatch} = useContext(Store);
+    const {state} = useContext(Store);
     return (
         <div className={state.isResult ? "w-100 h-75 position-absolute d-flex justify-content-center" : "d-none"}>
             <Alert show={state.isResult} variant="success" className="w-25 align-self-center">
@@ -21,7 +24,7 @@ const Result = ({onStart}) => {
                 <Button onClick={onStart} variant="outline-success">
                     Начать заново
                 </Button>
-                <Language language={state.language} dispatch={dispatch}/>
+                <Language/>
                 </div>
             </Alert>
         </div>

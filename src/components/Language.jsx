@@ -1,9 +1,14 @@
-import React from 'react';
+import React, {useContext} from 'react';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Dropdown } from 'react-bootstrap';
-import ACTIONS from '../store/actions'
 
-const Language = ({language, dispatch}) => {
+import ACTIONS from '../store/actions';
+import {Store} from '../store/reducer';
+
+const Language = () => {
+    const {state, dispatch} = useContext(Store);
+
     const setRussian = () => {
         dispatch({type: ACTIONS.SET_LANGUAGE, language: 'rus'})
     }
@@ -14,8 +19,8 @@ const Language = ({language, dispatch}) => {
     return (
         <Dropdown>
             <Dropdown.Toggle variant="info" id="dropdown-basic">
-                {language === 'eng' && 'английский'}
-                {language === 'rus' && 'русский'}
+                {state.language === 'eng' && 'английский'}
+                {state.language === 'rus' && 'русский'}
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
