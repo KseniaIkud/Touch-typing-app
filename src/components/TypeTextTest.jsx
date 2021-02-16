@@ -4,7 +4,7 @@ import ACTIONS from '../store/actions';
 
 import getText from '../utils/getText';
 import getCurrentTime from '../utils/getCurrentTime';
-import useKeyPress from '../hooks/useKeyPress';
+import useKeyPress from '../utils/useKeyPress';
 
 import Start from './Start';
 import TypingArea from './TypingArea';
