@@ -3,13 +3,15 @@ import getText from '../utils/getText';
 import getCurrentTime from '../utils/getCurrentTime';
 
 import useKeyPress from '../hooks/useKeyPress';
-import ACTIONS from '../state/actions';
-import reducer from '../state/reducer';
+import ACTIONS from '../store/actions';
+import reducer, {Store} from '../store/reducer';
 
 import Start from './Start';
 import TypingArea from './TypingArea';
 import Result from './Result';
-import initialState from '../state/initialState'
+import initialState from '../store/initialState'
+
+
 
 
 const App = () => {
@@ -57,11 +59,11 @@ const App = () => {
     useKeyPress(onKeyPress)
 
     return (
-        <div>
-            <Start onStart={onStart} state={state} dispatch={dispatch} />
-            <Result onStart={onStart} state={state} dispatch={dispatch} />
-            <TypingArea onStart={onStart} state={state} />
-        </div>
+        <Store.Provider value={{dispatch, state}}>
+            <Start onStart={onStart}/>
+            <Result onStart={onStart}/>
+            <TypingArea onStart={onStart}/>
+        </Store.Provider>
     )
 }
 

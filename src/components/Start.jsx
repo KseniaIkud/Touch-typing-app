@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Language from './Language';
 import {Alert, Button} from 'react-bootstrap';
+import {Store} from '../store/reducer';
 
-const Start = ({onStart, state, dispatch}) => {
+const Start = ({onStart}) => {
+    const {state, dispatch} = useContext(Store);
     return (
         <div className={state.isStart ? "w-100 h-75 position-absolute d-flex justify-content-center" : "d-none"}>
                 <Alert show={state.isStart} variant="secondary" className="w-25 align-self-center">

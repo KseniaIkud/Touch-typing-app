@@ -1,4 +1,9 @@
+import React from 'react';
 import ACTIONS from './actions';
+
+
+export const Store = React.createContext();
+
 function reducer(state, action) {
     switch (action.type) {
         case ACTIONS.RESET_STATE:
