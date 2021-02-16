@@ -1,5 +1,6 @@
 import React from 'react';
 import ACTIONS from './actions';
+import initialState from './initialState';
 
 
 export const Store = React.createContext();
@@ -8,20 +9,9 @@ function reducer(state, action) {
     switch (action.type) {
         case ACTIONS.RESET_STATE:
             return {
-                ...state,
-                outgoingValues: '',
-                typedText: '',
-                currentSymbol: '',
-                incomingValues: '',
-                isSymbolWrong: false,
-                startTime: null,
-                textLength: 0,
-                speed: 0,
-                accuracy: 100,
+                ...initialState,
                 isStart: false,
-                isResult: false,
-                _mistakes: 0,
-                _duration: 0
+                language: state.language
             }
         case ACTIONS.SET_TEXT:
             return {

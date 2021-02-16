@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import reducer, {Store} from '../store/reducer';
 import initialState from '../store/initialState'
-import TypeTest from './TypeTest'
+import TypeTextTest from './TypeTextTest'
 
 
 const App = () => {
@@ -9,7 +9,7 @@ const App = () => {
     
     return (
         <Store.Provider value={{dispatch, state}}>
-            <TypeTest />
+            <TypeTextTest />
         </Store.Provider>
     )
 }

@@ -10,7 +10,7 @@ import Start from './Start';
 import TypingArea from './TypingArea';
 import Result from './Result';
 
-const TypeText = () => {
+const TypeTextTest = () => {
     const { state, dispatch } = useContext(Store);
 
     const onStart = () => {
@@ -23,7 +23,7 @@ const TypeText = () => {
 
     const onKeyPress = (key) => {
         dispatch({ type: ACTIONS.START, time: getCurrentTime() });
-        console.log(state._mistakes)
+        
         let isTyping = state.startTime && state.outgoingValues;
         if (isTyping) {
             dispatch({ type: ACTIONS.SET_SPEED, time: getCurrentTime() });
@@ -56,4 +56,4 @@ const TypeText = () => {
     </div>
 }
 
-export default TypeText
+export default TypeTextTest
