@@ -8,7 +8,7 @@ const initialState = {
     startTime: null,
     speed: 0,
     accuracy: 100,
-    language: 'rus',
+    language: 'eng',
     isStart: true,
     isResult: false,
     _mistakes: 0,
