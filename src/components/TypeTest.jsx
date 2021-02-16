@@ -16,17 +16,10 @@ const TypeText = () => {
 
     const onStart = () => {
         dispatch({ type: ACTIONS.RESET_STATE })
-        if (state.language === 'rus') {
-            getText.getCyrillicText()
-                .then(result => {
-                    dispatch({ type: ACTIONS.SET_TEXT, result })
-                })
-        } else if (state.language === 'eng') {
-            getText.getLatinText()
-                .then(result => {
-                    dispatch({ type: ACTIONS.SET_TEXT, result })
-                })
-        }
+        getText(state.language)
+            .then(result => {
+                dispatch({ type: ACTIONS.SET_TEXT, result })
+            })
     };
 
     const onKeyPress = (key) => {
