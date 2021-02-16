@@ -1,8 +1,11 @@
 import React, {useContext} from 'react';
+
 import classes from './TypingArea.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {ProgressBar} from 'react-bootstrap';
+
 import restart from '../icons/restart.png';
+
 import {Store} from '../store/reducer';
 
 const TypingArea = ({onStart}) => {

@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import reducer, {Store} from '../store/reducer';
-import initialState from '../store/initialState'
-import TypeTextTest from './TypeTextTest'
+import initialState from '../store/initialState';
+import TypeTextTest from './TypeTextTest';
 
 
 const App = () => {

@@ -24,7 +24,7 @@ const TypeTextTest = () => {
     const onKeyPress = (key) => {
         dispatch({ type: ACTIONS.START, time: getCurrentTime() });
         
-        let isTyping = state.startTime && state.outgoingValues;
+        let isTyping = Boolean(state.startTime && state.outgoingValues);
         if (isTyping) {
             dispatch({ type: ACTIONS.SET_SPEED, time: getCurrentTime() });
         };
@@ -32,7 +32,7 @@ const TypeTextTest = () => {
         if (key === state.currentSymbol) {
             dispatch({ type: ACTIONS.SET_RIGHT_KEY, key });
 
-            let isFinished = (state.startTime && !state.incomingValues);
+            let isFinished = Boolean(state.startTime && !state.incomingValues);
             if (isFinished) {
                 dispatch({ type: ACTIONS.COMPLETE });
             };
