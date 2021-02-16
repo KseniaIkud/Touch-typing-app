@@ -23,7 +23,6 @@ function reducer(state, action) {
         case ACTIONS.START:
             return {
                 ...state,
-                percent: ((state.outgoingValues.length + 1) * 100) / state._textLength,
                 startTime: state.startTime || action.time
             }
         case ACTIONS.SET_SPEED:
@@ -40,7 +39,8 @@ function reducer(state, action) {
                 typedText: state.typedText + action.key,
                 incomingValues: state.incomingValues.substr(1),
                 currentSymbol: state.incomingValues.charAt(0),
-                isSymbolWrong: false
+                isSymbolWrong: false,
+                percent: ((state.outgoingValues.length + 1) * 100) / state._textLength
             }
         case ACTIONS.COMPLETE:
             return {
