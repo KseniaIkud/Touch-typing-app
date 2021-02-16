@@ -1,7 +1,7 @@
 import React from 'react';
+
 import ACTIONS from './actions';
 import initialState from './initialState';
-
 
 export const Store = React.createContext();
 
@@ -17,12 +17,13 @@ function reducer(state, action) {
             return {
                 ...state,
                 incomingValues: action.result.substr(1),
-                textLength: action.result.length,
+                _textLength: action.result.length,
                 currentSymbol: action.result.charAt(0),
             }
         case ACTIONS.START:
             return {
                 ...state,
+                percent: ((state.outgoingValues.length + 1) * 100) / state._textLength,
                 startTime: state.startTime || action.time
             }
         case ACTIONS.SET_SPEED:
@@ -56,7 +57,7 @@ function reducer(state, action) {
             return {
                 ...state,
                 typedText: state.typedText + action.key,
-                accuracy: (100 - ((state._mistakes + 1) * 100 / state.textLength)).toFixed(1,),
+                accuracy: (100 - ((state._mistakes + 1) * 100 / state._textLength)).toFixed(1,),
                 _mistakes: state._mistakes + 1
             }
 

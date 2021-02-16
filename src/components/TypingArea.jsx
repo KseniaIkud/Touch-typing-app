@@ -6,12 +6,11 @@ import restart from '../icons/restart.png';
 import {Store} from '../store/reducer';
 
 const TypingArea = ({onStart}) => {
-    const {state, dispatch} = useContext(Store);
-    let percent = (state.outgoingValues.length * 100) / state.textLength
+    const {state} = useContext(Store);
     return (
         <div className={classes.typingArea}>
             <div className={classes.header}>
-                <ProgressBar now={percent} variant="success" animated className="w-75"/>
+                <ProgressBar now={state.percent} variant="success" animated className="w-75"/>
                 <img src={restart} alt="restart" width="40" className={classes.restart} 
                     onClick={onStart}/>
             </div>
