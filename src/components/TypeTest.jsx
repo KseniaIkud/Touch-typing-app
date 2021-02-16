@@ -1,21 +1,19 @@
-import React, { useReducer } from 'react';
+import React, { useContext } from 'react';
+import {Store} from '../store/reducer';
+
 import getText from '../utils/getText';
 import getCurrentTime from '../utils/getCurrentTime';
 
 import useKeyPress from '../hooks/useKeyPress';
 import ACTIONS from '../store/actions';
-import reducer, {Store} from '../store/reducer';
 
 import Start from './Start';
 import TypingArea from './TypingArea';
 import Result from './Result';
-import initialState from '../store/initialState'
 
+const TypeText = () => {
+    const {state, dispatch} = useContext(Store);
 
-
-
-const App = () => {
-    const [state, dispatch] = useReducer(reducer, initialState);
     const onStart = () => {
         dispatch({ type: ACTIONS.RESET_STATE })
         if (state.language === 'rus') {
@@ -58,13 +56,11 @@ const App = () => {
 
     useKeyPress(onKeyPress)
 
-    return (
-        <Store.Provider value={{dispatch, state}}>
-            <Start onStart={onStart}/>
-            <Result onStart={onStart}/>
-            <TypingArea onStart={onStart}/>
-        </Store.Provider>
-    )
+    return <div>
+        <Start onStart={onStart}/>
+        <Result onStart={onStart}/>
+        <TypingArea onStart={onStart}/>
+    </div>
 }
 
-export default App;
+export default TypeText
