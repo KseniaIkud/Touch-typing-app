@@ -10,7 +10,9 @@ const initialState = {
     accuracy: 100,
     language: 'rus',
     isStart: true,
-    isResult: false
+    isResult: false,
+    _mistakes: 0,
+    _duration: 0
 };
 
 export default initialState

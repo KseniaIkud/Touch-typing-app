@@ -23,7 +23,7 @@ const TypeText = () => {
 
     const onKeyPress = (key) => {
         dispatch({ type: ACTIONS.START, time: getCurrentTime() });
-
+        console.log(state._mistakes)
         let isTyping = state.startTime && state.outgoingValues;
         if (isTyping) {
             dispatch({ type: ACTIONS.SET_SPEED, time: getCurrentTime() });
