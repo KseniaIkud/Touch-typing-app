@@ -29,14 +29,14 @@ const TypingArea = ({onStart}) => {
                 </div>
                 <div className={classes.result}>
                     <div>
-                        Скорость 
+                        Speed 
                         <div>
-                            {state.speed} зн/мин
+                            {state.speed} cpm
                         </div>
                     </div>
                     
                     <div>
-                        Точность
+                        Accuracy
                         <div>
                             {state.accuracy}%
                         </div>
