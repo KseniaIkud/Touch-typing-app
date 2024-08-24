@@ -12,17 +12,17 @@ const Result = ({onStart}) => {
     return (
         <div className={state.isResult ? "w-100 h-75 position-absolute d-flex justify-content-center" : "d-none"}>
             <Alert show={state.isResult} variant="success" className="w-25 align-self-center">
-                <Alert.Heading>Ваш результат</Alert.Heading>
+                <Alert.Heading>Your result</Alert.Heading>
                 <p>
-                    {state.speed} знаков в минуту
+                    {state.speed} symbols in minute
                 </p>
                 <p>
-                    {state.accuracy}% точности
+                    {state.accuracy}% accuracy
                 </p>
                 <hr />
                 <div className="d-flex justify-content-between">
                 <Button onClick={onStart} variant="outline-success">
-                    Начать заново
+                    Start again
                 </Button>
                 <Language/>
                 </div>
