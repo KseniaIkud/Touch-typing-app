@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/Touch-typing-app/static/css/main.9d0428b0.chunk.css",
-    "main.js": "/Touch-typing-app/static/js/main.94b169b5.chunk.js",
-    "main.js.map": "/Touch-typing-app/static/js/main.94b169b5.chunk.js.map",
+    "main.js": "/Touch-typing-app/static/js/main.d7a0bad2.chunk.js",
+    "main.js.map": "/Touch-typing-app/static/js/main.d7a0bad2.chunk.js.map",
     "runtime-main.js": "/Touch-typing-app/static/js/runtime-main.b47d039a.js",
     "runtime-main.js.map": "/Touch-typing-app/static/js/runtime-main.b47d039a.js.map",
     "static/css/2.f28e44d1.chunk.css": "/Touch-typing-app/static/css/2.f28e44d1.chunk.css",
@@ -19,6 +19,6 @@
     "static/css/2.f28e44d1.chunk.css",
     "static/js/2.d12322fe.chunk.js",
     "static/css/main.9d0428b0.chunk.css",
-    "static/js/main.94b169b5.chunk.js"
+    "static/js/main.d7a0bad2.chunk.js"
   ]
 }
