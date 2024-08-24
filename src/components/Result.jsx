@@ -14,7 +14,7 @@ const Result = ({onStart}) => {
             <Alert show={state.isResult} variant="success" className="w-25 align-self-center">
                 <Alert.Heading>Your result</Alert.Heading>
                 <p>
-                    {state.speed} symbols in minute
+                    {state.speed} Character Per Minute
                 </p>
                 <p>
                     {state.accuracy}% accuracy
