@@ -1,24 +1,24 @@
 {
   "files": {
     "main.css": "/Touch-typing-app/static/css/main.9d0428b0.chunk.css",
-    "main.js": "/Touch-typing-app/static/js/main.c54aa24a.chunk.js",
-    "main.js.map": "/Touch-typing-app/static/js/main.c54aa24a.chunk.js.map",
-    "runtime-main.js": "/Touch-typing-app/static/js/runtime-main.b40c109f.js",
-    "runtime-main.js.map": "/Touch-typing-app/static/js/runtime-main.b40c109f.js.map",
-    "static/css/2.150d169a.chunk.css": "/Touch-typing-app/static/css/2.150d169a.chunk.css",
-    "static/js/2.d47f99ec.chunk.js": "/Touch-typing-app/static/js/2.d47f99ec.chunk.js",
-    "static/js/2.d47f99ec.chunk.js.map": "/Touch-typing-app/static/js/2.d47f99ec.chunk.js.map",
+    "main.js": "/Touch-typing-app/static/js/main.94b169b5.chunk.js",
+    "main.js.map": "/Touch-typing-app/static/js/main.94b169b5.chunk.js.map",
+    "runtime-main.js": "/Touch-typing-app/static/js/runtime-main.b47d039a.js",
+    "runtime-main.js.map": "/Touch-typing-app/static/js/runtime-main.b47d039a.js.map",
+    "static/css/2.f28e44d1.chunk.css": "/Touch-typing-app/static/css/2.f28e44d1.chunk.css",
+    "static/js/2.d12322fe.chunk.js": "/Touch-typing-app/static/js/2.d12322fe.chunk.js",
+    "static/js/2.d12322fe.chunk.js.map": "/Touch-typing-app/static/js/2.d12322fe.chunk.js.map",
     "index.html": "/Touch-typing-app/index.html",
-    "static/css/2.150d169a.chunk.css.map": "/Touch-typing-app/static/css/2.150d169a.chunk.css.map",
+    "static/css/2.f28e44d1.chunk.css.map": "/Touch-typing-app/static/css/2.f28e44d1.chunk.css.map",
     "static/css/main.9d0428b0.chunk.css.map": "/Touch-typing-app/static/css/main.9d0428b0.chunk.css.map",
-    "static/js/2.d47f99ec.chunk.js.LICENSE.txt": "/Touch-typing-app/static/js/2.d47f99ec.chunk.js.LICENSE.txt",
+    "static/js/2.d12322fe.chunk.js.LICENSE.txt": "/Touch-typing-app/static/js/2.d12322fe.chunk.js.LICENSE.txt",
     "static/media/restart.6f33e8f5.png": "/Touch-typing-app/static/media/restart.6f33e8f5.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.b40c109f.js",
-    "static/css/2.150d169a.chunk.css",
-    "static/js/2.d47f99ec.chunk.js",
+    "static/js/runtime-main.b47d039a.js",
+    "static/css/2.f28e44d1.chunk.css",
+    "static/js/2.d12322fe.chunk.js",
     "static/css/main.9d0428b0.chunk.css",
-    "static/js/main.c54aa24a.chunk.js"
+    "static/js/main.94b169b5.chunk.js"
   ]
 }
