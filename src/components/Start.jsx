@@ -12,14 +12,14 @@ const Start = ({onStart}) => {
     return (
         <div className={state.isStart ? "w-100 h-75 position-absolute d-flex justify-content-center" : "d-none"}>
                 <Alert show={state.isStart} variant="secondary" className="w-25 align-self-center">
-                    <Alert.Heading>Проверьте скорость своей печати</Alert.Heading>
+                    <Alert.Heading>Check your typing speed</Alert.Heading>
                     <p>
-                        Наберите небольшой текст, чтобы узнать скорость и точноть набора
+                        Type a short text to measure your typing speed and accuracy
                     </p>
                     <hr />
                     <div className="d-flex justify-content-between">
                     <Button onClick={onStart} variant="outline-info">
-                        Начать
+                        Start
                     </Button>
                     <Language/>
                     </div>
