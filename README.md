@@ -1,13 +1,14 @@
-# Приложение тренажёр слепой печати
-  Возможность выбрать кириллицу или латиницу для тренировки  
-  Отображение скорости и точности набора в реальном времени  
+# Touch Typing practicing app
+  Ability to choose Cyrillic or Latin script for training
+  Real-time display of typing speed and accuracy  
 
-## Запуск приложения
-Для запуска приложения выполните следующие команды:
+## App launch
+To launch the application, execute the following commands:
 ```
     git clone https://github.com/KseniaIkud/Touch-typing-app.git
     cd Touch-typing-app/
     npm install
+    npm update
     npm start
 ```
-или перейдите по [ссылке](https://kseniaikud.github.io/Touch-typing-app/)
+or follow the [link](https://kseniaikud.github.io/Touch-typing-app/)
