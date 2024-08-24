@@ -1,5 +1,6 @@
 # Touch Typing practicing app
   Ability to choose Cyrillic or Latin script for training
+  
   Real-time display of typing speed and accuracy  
 
 ## App launch
