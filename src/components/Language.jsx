@@ -16,13 +16,13 @@ const Language = () => {
     return (
         <Dropdown>
             <Dropdown.Toggle variant="info" id="dropdown-basic">
-                {state.language === 'eng' && 'английский'}
-                {state.language === 'rus' && 'русский'}
+                {state.language === 'eng' && 'English'}
+                {state.language === 'rus' && 'Russian'}
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-                <Dropdown.Item eventKey="1" onClick={() => changeLanguage('rus')}>русский</Dropdown.Item>
-                <Dropdown.Item eventKey="2" onClick={() => changeLanguage('eng')}>английский</Dropdown.Item>
+                <Dropdown.Item eventKey="1" onClick={() => changeLanguage('rus')}>russian</Dropdown.Item>
+                <Dropdown.Item eventKey="2" onClick={() => changeLanguage('eng')}>english</Dropdown.Item>
             </Dropdown.Menu>
         </Dropdown>
     )
